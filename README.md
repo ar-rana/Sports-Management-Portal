@@ -6,3 +6,8 @@ The hostel premier leagues and other tournaments organised by the hostels and ot
 
 ### Solution
 We proposed a web application that can be used by the hostel committees and students. The hostel staff can upload any sports event organization on the platform. The students will be able to register from the same platform they can organize their own informal events and bridge teams together through this platform. You can see pre-existing matches and their locations and join those matches as well. This will allow for a seamless and hassle-free sports environment. 
+
+
+
+***Project Under Progress***
+
