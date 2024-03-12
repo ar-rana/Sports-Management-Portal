@@ -1,5 +1,5 @@
 # Sports-Management_KIIT
-By- @yashsirola9410, @ar-rana
+By- @yashsirola9410, @AnSi-28, @ar-rana
 
 ### Problem We Found
 The hostel premier leagues and other tournaments organised by the hostels and other committees are only available through physical notices. There is no other way for borders to know about events like Hostel Premier League (HPL). Thus some boarders miss out on the fun of organized competitive sports. Students are also looking for other students with similar interests which they cannot find in early years.
