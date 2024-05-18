@@ -1,3 +1,4 @@
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
 
 const Tournaments = () => {
@@ -11,6 +12,9 @@ const Tournaments = () => {
   return (
     <div>
       <nav className="bg-green-600 h-16 w-full flex justify-center place-items-center  ">
+        <a href="/" title="Home">
+          <ArrowLeftIcon className="h-8 bg-white rounded-full absolute w-auto m-2 top-2 left-5 hover:bg-gray-300 hover:shadow-lg cursor-pointer"/>
+        </a>
         <h1 className="text-sky-50 text-3xl font-medium tracking-wide">
           Tournaments
         </h1>
@@ -18,7 +22,7 @@ const Tournaments = () => {
       <div className="m-4 border-2 p-2">
         <form className="px-7" onSubmit={onOptionChangeHandler}>
           <span className="font-bold p-2 text-lg pr-4">Filter a Sport</span>
-          <select onChange={(e) => setSport(e.target.value)}>
+          <select name="sports" onChange={(e) => setSport(e.target.value)}>
             <option value="">Select</option>
             <option value="Football">Football</option>
             <option value="Cricket">Cricket</option>

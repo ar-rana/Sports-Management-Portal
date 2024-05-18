@@ -10,7 +10,7 @@ const Signup = () => {
         className="h-screen w-full flex items-center justify-center"
         style={{ backgroundImage: `url(${bg})`, backgroundSize: "cover" }}
       >
-        <a href="/">
+        <a href="/" title="Home">
           <ArrowLeftIcon className="h-8 bg-white rounded-full absolute w-auto m-2 top-2 left-5 hover:bg-gray-300 hover:shadow-lg cursor-pointer" />
         </a>
         <div className="flex flex-col space-y-1.5 items-center bg-white rounded-2xl py-3 px-6 lg:w-[25%] xl:w-[25%] w-auto">

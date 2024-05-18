@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import "../index.css";
 import kiit from "../assets/Images/kiit.png";
 import logo from "../assets/Images/logo.png";
+import Modal from "react-modal";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 
 function Home() {
+  const [open, setOpen] = useState(false);
+
+  const LoginSubmitHandler = () =>{
+    alert("submit hadler triggered")
+  }
+
   return (
-    <div>
+    <div className="">
       <div className="bg-green-100 h-screen">
         <nav className="bg-green-100 md:border-0 border-b-2 border-gray-200 z-100 sticky h-18 top-0">
           <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -49,12 +57,12 @@ function Home() {
               </ul>
             </div>
             <div className="flex space-x-2 px-8">
-              <a
-                className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md"
-                href="#"
+              <button
+                className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md cursor-pointer"
+                onClick={()=>setOpen((prevstate)=> !prevstate)}
               >
                 Login
-              </a>
+              </button>
               <a
                 className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md"
                 href="/signup"
@@ -84,6 +92,31 @@ function Home() {
           </div>
         </div>
       </div>
+      {open && (
+        <Modal
+          className="max-w-lg h-auto w-[90%] absolute top-24 left-[50%] translate-x-[-50%] bg-white border-2 border-gray-400 rounded-xl shadow-md"
+          isOpen={open}
+          onRequestClose={()=>setOpen(false)}
+        >
+          <div className="p-1">
+            <div className="border-b border-gray-200">
+              <div
+                onClick={() => setOpen(false)}
+                className="hoverEffect p-0 w-9 h-9 flex items-center justify-center"
+              >
+                <XMarkIcon className="h-[22px] text-gray-600 cursor-pointer hover:bg-gray-200 rounded-full" onClick={()=>setOpen(false)}/>
+              </div>
+            </div>
+            <div className="flex flex-col p-4">
+                <form className="space-y-2" onSubmit={LoginSubmitHandler}>
+                  <input className="text-black bg-gray-200 w-full p-2 rounded-lg" type="text" placeholder="Enter Email"/>
+                  <input className="text-black bg-gray-200 w-full p-2 rounded-lg" type="text" placeholder="Enter Password"/>
+                  <button type="submit" className="bg-green-500 p-2 rounded-lg font-medium">Login</button>
+                </form>
+              </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }
