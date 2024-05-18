@@ -40,7 +40,7 @@ function Home() {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="/coaches"
                     className="block py-2 px-3 text-black rounded md:hover:bg-transparent md:border-0 md:hover:text-green-500 md:p-0"
                   >
                     Coaches
