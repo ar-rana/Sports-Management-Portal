@@ -37,7 +37,7 @@ const Tournaments = () => {
             value="Search"
           />
         </form>
-        <button className="bg-green-600 rounded-3xl w-auto h-auto font-bold text-white hover:shadow-md py-1.5 xl:ml-auto px-4">
+        <button className="bg-green-600 rounded-3xl w-auto h-auto font-bold text-white hover:shadow-md py-1.5 xl:ml-auto md:ml-auto px-4">
           Register a Tournament
         </button>
       </div>
@@ -52,7 +52,7 @@ const Tournaments = () => {
                 Date
               </span>
             </div>
-            <span className="xl:ml-auto bg-white m-4 rounded-md font-bold p-2 cursor-pointer">
+            <span className="xl:ml-auto md:ml-auto bg-white m-4 rounded-md font-bold p-2 cursor-pointer">
               View Details
             </span>
           </div>

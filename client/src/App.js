@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Tournaments from "./pages/Tournaments";
 import Coaches from "./pages/Coaches";
+import About from "./pages/About";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route exact path="/signup" element={<Signup />} />
           <Route exact path="/tournaments" element={<Tournaments />} />
           <Route exact path="/coaches" element={<Coaches />} />
+          <Route exact path="/about" element={<About />} />
         </Routes>
       </BrowserRouter>
     </div>
