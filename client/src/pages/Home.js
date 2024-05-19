@@ -9,13 +9,14 @@ import sport from "../assets/Images/sport.png";
 function Home() {
   const [open, setOpen] = useState(false);
 
-  const LoginSubmitHandler = () => {
+  const LoginSubmitHandler = (e) => {
+    e.preventDefault()
     alert("submit hadler triggered");
   };
 
   return (
     <div className="">
-      <div className="bg-green-100 h-screen overflow-hidden">
+      <div className="bg-green-100 h-screen xl:overflow-hidden md:overflow-hidden">
         <nav className="bg-green-100 md:border-0 border-b-2 border-gray-200 z-100 sticky h-18 top-0">
           <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -97,7 +98,38 @@ function Home() {
             src={sport}
           />
         </div>
+        <div className="xl:hidden md:hidden flex flex-col m-7 p-3 space-y-3 items-center">
+          <div className="flex space-x-2">
+            <a
+              href="/"
+              className="w-36 font-semibold justify-center py-2 px-3 bg-green-600 cursor-pointer hover:shadow-xl hover:bg-green-300 rounded-3xl"
+            >
+              Home
+            </a>
+            <a
+              href="/tournaments"
+              className="w-36 py-2 px-3 font-semibold bg-green-600 cursor-pointer hover:shadow-xl hover:bg-green-300 rounded-3xl"
+            >
+              Tournaments
+            </a>
+          </div>
+          <div className="flex space-x-2">
+            <a
+              href="/coaches"
+              className="w-36 py-2 px-3 font-semibold bg-green-600 cursor-pointer hover:shadow-xl hover:bg-green-300 rounded-3xl"
+            >
+              Coaches
+            </a>
+            <a
+              href="/about"
+              className="w-36 py-2 px-3 font-semibold bg-green-600 cursor-pointer hover:shadow-xl hover:bg-green-300 rounded-3xl"
+            >
+              About us
+            </a>
+          </div>
+        </div>
       </div>
+
       {open && (
         <Modal
           className="max-w-lg h-auto w-[90%] absolute top-24 left-[50%] translate-x-[-50%] bg-white border-2 border-gray-400 rounded-xl shadow-md"

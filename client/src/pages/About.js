@@ -36,7 +36,7 @@ const About = () => {
         </div>
         <a href="/" className="flex items-center space-x-2 m-7 bg-green-600 w-max rounded-xl p-3 hover:shadow-md hover:bg-green-300">
             <ArrowLeftIcon className="h-7"/>
-            <span className="font-bold">Go Back Home</span>
+            <span className="font-bold">Go Back to Home</span>
         </a>
       </div>
     </div>

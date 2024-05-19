@@ -3,11 +3,12 @@ import React, { useState } from "react";
 
 const Tournaments = () => {
   const [sport, setSport] = useState("");
+  const loop = [1, 2, 3, 4, 5];
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
     alert(`Sport value set to ${sport}`);
-  }
+  };
 
   return (
     <div>
@@ -22,7 +23,11 @@ const Tournaments = () => {
       <div className="m-4 border-2 p-2 flex items-center">
         <form className="px-7" onSubmit={onSubmitHandler}>
           <span className="font-bold p-2 text-lg pr-4">Filter a Sport</span>
-          <select name="sports" onChange={(e)=>setSport(e.target.value)} value={sport}>
+          <select
+            name="sports"
+            onChange={(e) => setSport(e.target.value)}
+            value={sport}
+          >
             <option value="">Select</option>
             <option value="Football">Football</option>
             <option value="Cricket">Cricket</option>
@@ -43,19 +48,23 @@ const Tournaments = () => {
       </div>
       <div className="bg-white h-auto flex flex-col place-content-center justify-center">
         <div className="flex flex-col items-center my-6 space-y-3 w-auto">
-          <div className="bg-green-600 w-[75%] flex flex-col sm:flex-row rounded-lg">
-            <div className="space-x-2 flex">
-              <span className="bg-white m-4 rounded-md font-bold p-2">
-                Name of Tournament
-              </span>
-              <span className="bg-white m-4 rounded-md font-bold p-2">
-                Date
-              </span>
-            </div>
-            <span className="xl:ml-auto md:ml-auto bg-white m-4 rounded-md font-bold p-2 cursor-pointer">
-              View Details
-            </span>
-          </div>
+          {loop.map((each, index) => (
+            <>
+              <div key={index} className="bg-green-600 w-[75%] flex flex-col sm:flex-row rounded-lg">
+                <div className="space-x-2 flex">
+                  <span className="bg-white m-4 rounded-md font-bold p-2">
+                    Name of Tournament
+                  </span>
+                  <span className="bg-white m-4 rounded-md font-bold p-2">
+                    Date
+                  </span>
+                </div>
+                <span className="xl:ml-auto md:ml-auto bg-white m-4 rounded-md font-bold p-2 cursor-pointer">
+                  View Details
+                </span>
+              </div>
+            </>
+          ))}
         </div>
       </div>
     </div>
