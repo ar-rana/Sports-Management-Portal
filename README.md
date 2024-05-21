@@ -1,4 +1,4 @@
-# Sports-Management_KIIT
+# Sports-Management-Portal
 By- @yashsirola9410, @AnSi-28, @ar-rana
 
 ### Problem We Found
