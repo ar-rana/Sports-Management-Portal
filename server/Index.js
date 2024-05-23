@@ -40,7 +40,15 @@ app.get("/", (req, res) => {
 });
 
 app.post("/tournament/register", (req, res) => {
-  const docref = wd;
+  const addTournament = async () =>{
+    const docref = await addDoc(collection(db, "tournaments"), {
+      name: req.body.name,
+      sport: req.body.sport,
+      startingDate: req.body.start,
+      endingDate: req.body.end,
+      description: req.body.description
+    })
+  };
 });
 
 server.listen(PORT, () => {
