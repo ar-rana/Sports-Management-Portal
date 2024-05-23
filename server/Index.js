@@ -18,6 +18,7 @@ const {
   getDownloadURL,
   uploadString,
 } = require("firebase/storage");
+const { timeStamp } = require("console");
 require("dotenv").config();
 
 const app = express();
@@ -31,6 +32,8 @@ const options = {
   credentials: true,
   allowedHeaders: "Content-Type,Authorization",
 };
+
+app.use(express.json());
 app.use(cors(options));
 
 const server = http.createServer(app);
@@ -46,9 +49,17 @@ app.post("/tournament/register", (req, res) => {
       sport: req.body.sport,
       startingDate: req.body.start,
       endingDate: req.body.end,
-      description: req.body.description
+      description: req.body.description,
+      timeStamp: serverTimestamp() 
     })
+    res.sendStatus(200)
   };
+
+  if (req){
+    console.log("req received")
+    console.log("in if: ", req.body);
+    addTournament();
+  }  
 });
 
 server.listen(PORT, () => {

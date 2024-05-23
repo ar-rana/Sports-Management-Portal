@@ -1,8 +1,17 @@
-import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import { ArrowLeftIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
+import Modal from "react-modal";
 
 const Tournaments = () => {
   const [sport, setSport] = useState("");
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [tournamentsport, setTournamentSport] = useState("");
+  const [start, setstartDate] = useState("");
+  const [end, setendDate] = useState("");
+  const [description,setDescription] = useState("");
+  
+  const origin = "http://localhost:5000";
   const loop = [1, 2, 3, 4, 5];
 
   const onSubmitHandler = (e) => {
@@ -10,8 +19,32 @@ const Tournaments = () => {
     alert(`Sport value set to ${sport}`);
   };
 
-  const registerTournament =()=>{
-    alert("registration triggered")
+  const registerTournament = async (e) => {
+    e.preventDefault();
+    alert("registration under process");
+    const data = await fetch(origin + "/tournament/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        sport: tournamentsport,
+        start: start,
+        end: end,
+        description: description
+      }),
+    }).then((res)=>{
+      if (res === 200){
+        alert("registration sucessfull!!!")
+      }
+    }).then(setOpen(false));
+
+    setName("");
+    setTournamentSport("");
+    setstartDate("");
+    setendDate("");
+    setDescription("");
   };
 
   return (
@@ -46,7 +79,10 @@ const Tournaments = () => {
             value="Search"
           />
         </form>
-        <button onClick={registerTournament} className="bg-green-600 rounded-3xl w-auto h-auto font-bold text-white hover:shadow-md py-1.5 xl:ml-auto md:ml-auto px-4">
+        <button
+          onClick={() => setOpen((prevState) => !prevState)}
+          className="bg-green-600 rounded-3xl w-auto h-auto font-bold text-white hover:shadow-md py-1.5 xl:ml-auto md:ml-auto px-4"
+        >
           Register a Tournament
         </button>
       </div>
@@ -54,7 +90,10 @@ const Tournaments = () => {
         <div className="flex flex-col items-center my-6 space-y-3 w-auto">
           {loop.map((each, index) => (
             <>
-              <div key={index} className="bg-green-600 w-[75%] flex flex-col sm:flex-row rounded-lg">
+              <div
+                key={index}
+                className="bg-green-600 w-[75%] flex flex-col sm:flex-row rounded-lg"
+              >
                 <div className="space-x-2 flex">
                   <span className="bg-white m-4 rounded-md font-bold p-2">
                     Name of Tournament
@@ -71,6 +110,76 @@ const Tournaments = () => {
           ))}
         </div>
       </div>
+      {open && (
+        <Modal
+          className="max-w-xl h-auto w-[90%] absolute top-24 left-[50%] translate-x-[-50%] bg-white border-4 border-green-600 rounded-xl shadow-md"
+          isOpen={open}
+          onRequestClose={() => setOpen(false)}
+        >
+          <div className="p-1">
+            <div className="border-b border-green-600">
+              <div
+                onClick={() => setOpen(false)}
+                className="hoverEffect p-0 w-9 h-9 flex items-center justify-center"
+              >
+                <XMarkIcon
+                  className="h-[22px] text-gray-600 cursor-pointer hover:bg-gray-200 rounded-full"
+                  onClick={() => setOpen(false)}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col p-4">
+              <form className="space-y-2" onSubmit={registerTournament}>
+                <input
+                  className="text-black bg-gray-200 w-full p-2 rounded-lg border-2 border-green-500"
+                  type="text"
+                  placeholder="Enter Name of The Tournament"
+                  value={name}
+                  onChange={(e)=>setName(e.target.value)}
+                />
+                <input
+                  className="text-black bg-gray-200 w-full p-2 rounded-lg border-2 border-green-500"
+                  type="text"
+                  placeholder="Enter The Sport"
+                  value={tournamentsport}
+                  onChange={(e)=>setTournamentSport(e.target.value)}
+                />
+                <label className="font-semibold m-1 mr-4" for="Start Date">
+                  Start Date:
+                </label>
+                <input
+                  className="text-black bg-gray-200 w-[50%] p-2 rounded-lg border-2 border-green-500"
+                  type="date"
+                  onChange={(e)=>setstartDate(e.target.value)}
+                />
+                <br />
+                <label className="font-semibold m-1 mr-6" for="End Date">
+                  End Date:
+                </label>
+                <input
+                  className="text-black bg-gray-200 w-[50%] p-2 rounded-lg border-2 border-green-500"
+                  type="date"
+                  onChange={(e)=>setendDate(e.target.value)}
+                />
+                <textarea
+                  className="text-black bg-gray-200 w-full p-2 rounded-lg border-2 border-green-500"
+                  row="3"
+                  placeholder="Description"
+                  value={description}
+                  onChange={(e)=>setDescription(e.target.value)}
+                ></textarea>
+                <br />
+                <button
+                  type="submit"
+                  className="bg-green-500 p-2 rounded-lg font-medium"
+                >
+                  Register Tournament
+                </button>
+              </form>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };
