@@ -10,6 +10,10 @@ const Tournaments = () => {
     alert(`Sport value set to ${sport}`);
   };
 
+  const registerTournament =()=>{
+    alert("registration triggered")
+  };
+
   return (
     <div>
       <nav className="bg-green-600 h-16 w-full flex justify-center place-items-center  ">
@@ -42,7 +46,7 @@ const Tournaments = () => {
             value="Search"
           />
         </form>
-        <button className="bg-green-600 rounded-3xl w-auto h-auto font-bold text-white hover:shadow-md py-1.5 xl:ml-auto md:ml-auto px-4">
+        <button onClick={registerTournament} className="bg-green-600 rounded-3xl w-auto h-auto font-bold text-white hover:shadow-md py-1.5 xl:ml-auto md:ml-auto px-4">
           Register a Tournament
         </button>
       </div>
