@@ -1,6 +1,15 @@
 import { ArrowLeftIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
+import TournamentBar from "../components/TournamentBar";
+import { db, storage } from "../firebase";
+import {
+  serverTimestamp,
+  query,
+  collection,
+  orderBy,
+  addDoc,
+} from "firebase/firestore";
 
 const Tournaments = () => {
   const [sport, setSport] = useState("");
@@ -9,10 +18,14 @@ const Tournaments = () => {
   const [tournamentsport, setTournamentSport] = useState("");
   const [start, setstartDate] = useState("");
   const [end, setendDate] = useState("");
-  const [description,setDescription] = useState("");
-  
+  const [description, setDescription] = useState("");
+
   const origin = "http://localhost:5000";
   const loop = [1, 2, 3, 4, 5];
+
+  useEffect(() => {
+
+  }, []);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -21,24 +34,17 @@ const Tournaments = () => {
 
   const registerTournament = async (e) => {
     e.preventDefault();
-    alert("registration under process");
-    const data = await fetch(origin + "/tournament/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: name,
-        sport: tournamentsport,
-        start: start,
-        end: end,
-        description: description
-      }),
-    }).then((res)=>{
-      if (res === 200){
-        alert("registration sucessfull!!!")
-      }
-    }).then(setOpen(false));
+    const collectionref = collection(db, "tournaments");
+    const docref = await addDoc(collectionref, {
+      name: name,
+      sport: tournamentsport,
+      start: start,
+      end: end,
+      description: description,
+      timeStamp: serverTimestamp(),
+    });
+    setOpen(false);
+    alert("Tournament Registered!!")
 
     setName("");
     setTournamentSport("");
@@ -89,24 +95,7 @@ const Tournaments = () => {
       <div className="bg-white h-auto flex flex-col place-content-center justify-center">
         <div className="flex flex-col items-center my-6 space-y-3 w-auto">
           {loop.map((each, index) => (
-            <>
-              <div
-                key={index}
-                className="bg-green-600 w-[75%] flex flex-col sm:flex-row rounded-lg"
-              >
-                <div className="space-x-2 flex">
-                  <span className="bg-white m-4 rounded-md font-bold p-2">
-                    Name of Tournament
-                  </span>
-                  <span className="bg-white m-4 rounded-md font-bold p-2">
-                    Date
-                  </span>
-                </div>
-                <span className="xl:ml-auto md:ml-auto bg-white m-4 rounded-md font-bold p-2 cursor-pointer">
-                  View Details
-                </span>
-              </div>
-            </>
+            <TournamentBar />
           ))}
         </div>
       </div>
@@ -135,14 +124,14 @@ const Tournaments = () => {
                   type="text"
                   placeholder="Enter Name of The Tournament"
                   value={name}
-                  onChange={(e)=>setName(e.target.value)}
+                  onChange={(e) => setName(e.target.value)}
                 />
                 <input
                   className="text-black bg-gray-200 w-full p-2 rounded-lg border-2 border-green-500"
                   type="text"
                   placeholder="Enter The Sport"
                   value={tournamentsport}
-                  onChange={(e)=>setTournamentSport(e.target.value)}
+                  onChange={(e) => setTournamentSport(e.target.value)}
                 />
                 <label className="font-semibold m-1 mr-4" for="Start Date">
                   Start Date:
@@ -150,7 +139,7 @@ const Tournaments = () => {
                 <input
                   className="text-black bg-gray-200 w-[50%] p-2 rounded-lg border-2 border-green-500"
                   type="date"
-                  onChange={(e)=>setstartDate(e.target.value)}
+                  onChange={(e) => setstartDate(e.target.value)}
                 />
                 <br />
                 <label className="font-semibold m-1 mr-6" for="End Date">
@@ -159,14 +148,14 @@ const Tournaments = () => {
                 <input
                   className="text-black bg-gray-200 w-[50%] p-2 rounded-lg border-2 border-green-500"
                   type="date"
-                  onChange={(e)=>setendDate(e.target.value)}
+                  onChange={(e) => setendDate(e.target.value)}
                 />
                 <textarea
                   className="text-black bg-gray-200 w-full p-2 rounded-lg border-2 border-green-500"
                   row="3"
                   placeholder="Description"
                   value={description}
-                  onChange={(e)=>setDescription(e.target.value)}
+                  onChange={(e) => setDescription(e.target.value)}
                 ></textarea>
                 <br />
                 <button

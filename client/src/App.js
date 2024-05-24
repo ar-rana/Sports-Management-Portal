@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import Tournaments from "./pages/Tournaments";
 import Coaches from "./pages/Coaches";
 import About from "./pages/About";
+import {db, storage} from "./firebase";
 
 function App() {
   return (
