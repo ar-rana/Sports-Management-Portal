@@ -9,11 +9,14 @@ import {
   collection,
   orderBy,
   addDoc,
+  onSnapshot,
 } from "firebase/firestore";
 
 const Tournaments = () => {
-  const [sport, setSport] = useState("");
+  const [tournaments, setTournaments] = useState([]);
   const [open, setOpen] = useState(false);
+  const [sport, setSport] = useState("");
+
   const [name, setName] = useState("");
   const [tournamentsport, setTournamentSport] = useState("");
   const [start, setstartDate] = useState("");
@@ -21,11 +24,13 @@ const Tournaments = () => {
   const [description, setDescription] = useState("");
 
   const origin = "http://localhost:5000";
-  const loop = [1, 2, 3, 4, 5];
 
   useEffect(() => {
-
-  }, []);
+    onSnapshot(
+      query(collection(db, "tournaments"), orderBy("timeStamp", "desc")),
+      (snapshot) => setTournaments(snapshot.docs)
+    );
+  }, [db]);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -38,13 +43,13 @@ const Tournaments = () => {
     const docref = await addDoc(collectionref, {
       name: name,
       sport: tournamentsport,
-      start: start,
-      end: end,
+      startingDate: start,
+      endingDate: end,
       description: description,
       timeStamp: serverTimestamp(),
     });
     setOpen(false);
-    alert("Tournament Registered!!")
+    alert("Tournament Registered!!");
 
     setName("");
     setTournamentSport("");
@@ -94,8 +99,8 @@ const Tournaments = () => {
       </div>
       <div className="bg-white h-auto flex flex-col place-content-center justify-center">
         <div className="flex flex-col items-center my-6 space-y-3 w-auto">
-          {loop.map((each, index) => (
-            <TournamentBar />
+          {tournaments.map((tournament) => (
+            <TournamentBar tournament={tournament}/>
           ))}
         </div>
       </div>
