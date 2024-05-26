@@ -6,6 +6,7 @@ import Tournaments from "./pages/Tournaments";
 import Coaches from "./pages/Coaches";
 import About from "./pages/About";
 import {db, storage} from "./firebase";
+import Details from "./pages/Details";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route exact path="/tournaments" element={<Tournaments />} />
           <Route exact path="/coaches" element={<Coaches />} />
           <Route exact path="/about" element={<About />} />
+          <Route exact path="/tournament/:id" element={<Details/>}/>
         </Routes>
       </BrowserRouter>
     </div>
