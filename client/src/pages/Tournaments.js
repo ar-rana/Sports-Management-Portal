@@ -15,7 +15,7 @@ import {
 const Tournaments = () => {
   const [tournaments, setTournaments] = useState([]);
   const [open, setOpen] = useState(false);
-  const [sport, setSport] = useState("");
+  const [sport, setSport] = useState(null);
 
   const [name, setName] = useState("");
   const [tournamentsport, setTournamentSport] = useState("");
@@ -35,6 +35,23 @@ const Tournaments = () => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     alert(`Sport value set to ${sport}`);
+    console.log(tournaments.length)
+    
+    if (sport) {
+      const tournamentsCopy = [...tournaments];
+
+      const sportArray = [];
+      const otherArray = [];
+
+      tournamentsCopy.forEach(tournament => {
+        if (tournament.data().sport.toLowerCase() === sport) {
+          sportArray.push(tournament);
+        } else {
+          otherArray.push(tournament);
+        }
+      })
+      setTournaments(sportArray.concat(otherArray))
+    }
   };
 
   const registerTournament = async (e) => {
@@ -42,7 +59,7 @@ const Tournaments = () => {
     const collectionref = collection(db, "tournaments");
     const docref = await addDoc(collectionref, {
       name: name,
-      sport: tournamentsport,
+      sport: tournamentsport.toLowerCase(),
       startingDate: start,
       endingDate: end,
       description: description,
@@ -77,10 +94,11 @@ const Tournaments = () => {
             value={sport}
           >
             <option value="">Select</option>
-            <option value="Football">Football</option>
-            <option value="Cricket">Cricket</option>
-            <option value="Swimming">Swimming</option>
-            <option value="Badminton">Badminton</option>
+            <option value="football">Football</option>
+            <option value="cricket">Cricket</option>
+            <option value="swimming">Swimming</option>
+            <option value="badminton">Badminton</option>
+            {/* keep the values in small case letters */}
           </select>
           <br />
           <br />
@@ -100,7 +118,7 @@ const Tournaments = () => {
       <div className="bg-white h-auto flex flex-col place-content-center justify-center">
         <div className="flex flex-col items-center my-6 space-y-3 w-auto">
           {tournaments.map((tournament) => (
-            <TournamentBar tournament={tournament}/>
+            <TournamentBar key={tournament.id} tournament={tournament} />
           ))}
         </div>
       </div>
