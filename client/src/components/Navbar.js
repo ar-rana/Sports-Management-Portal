@@ -21,7 +21,7 @@ const Navbar = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/tournaments"
                   className="block py-2 px-3 text-black rounded md:hover:bg-transparent md:border-0 md:hover:text-green-500 md:p-0"
                 >
                   Tournaments
@@ -29,7 +29,7 @@ const Navbar = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/coaches"
                   className="block py-2 px-3 text-black rounded md:hover:bg-transparent md:border-0 md:hover:text-green-500 md:p-0"
                 >
                   Coaches
@@ -37,7 +37,7 @@ const Navbar = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/about"
                   className="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-500 md:p-0"
                 >
                   About us
@@ -46,12 +46,9 @@ const Navbar = () => {
             </ul>
           </div>
           <div className="flex space-x-2 px-8">
-            <a
-              className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md"
-              href="#"
-            >
+            <button className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md cursor-pointer">
               Login
-            </a>
+            </button>
             <a
               className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md"
               href="/signup"
