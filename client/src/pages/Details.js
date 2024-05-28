@@ -47,6 +47,7 @@ const Details = () => {
                 {tournamentData.description}
               </p>
             </div>
+            <br/>
             <button className="w-max py-1.5 px-3 mt-auto rounded-full bg-white text-black font-bold hover:shadow-xl hover:bg-green-100" >
               Register for Tournament
             </button>
@@ -59,6 +60,7 @@ const Details = () => {
           <div className="mr-auto ml-6">
               <p className="font-medium xl:text-3xl md:text-3xl text-xl mt-3 text-white">Images: </p>
           </div>
+          <br/>
         </div>
       </div>
     </div>

@@ -8,9 +8,11 @@ import sport from "../assets/Images/sport.png";
 
 function Home() {
   const [open, setOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const LoginSubmitHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     alert("submit hadler triggered");
   };
 
@@ -151,11 +153,15 @@ function Home() {
             <div className="flex flex-col p-4">
               <form className="space-y-2" onSubmit={LoginSubmitHandler}>
                 <input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="text-black bg-gray-200 w-full p-2 rounded-lg"
                   type="text"
                   placeholder="Enter Email"
                 />
                 <input
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="text-black bg-gray-200 w-full p-2 rounded-lg"
                   type="text"
                   placeholder="Enter Password"

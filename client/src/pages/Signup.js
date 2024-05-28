@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import bg from "../assets/Images/bg.jpeg";
 import Navbar from "../components/Navbar";
 import { Form } from "react-router-dom";
 
 const Signup = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fixPassword, setfixPasssword] = useState("");
+  const [warning, setWarning] = useState("");
+
+  useEffect(() => {}, []);
+
+  const warningState = () => {
+
+  };
+
   const onSubmithandler = (e) => {
     e.preventDefault();
     alert("onSubmithandler triggered!!!");
@@ -25,31 +37,50 @@ const Signup = () => {
             onSubmit={onSubmithandler}
           >
             <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               type="text"
-              placeholder="Username"
+              placeholder="Name"
               className="rounded-xl border-[1px] border-black w-full xl:w-[85%] py-1 pl-2 bg-green-600 placeholder-white text-white focus:ring-0 border-none"
             />
             <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               type="text"
               placeholder="Email"
               className="rounded-xl border-[1px] border-black w-full xl:w-[85%] py-1 pl-2 bg-green-600 placeholder-white text-white focus:ring-0 border-none"
             />
             <input
               type="text"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Create Password"
               className="rounded-xl border-[1px] border-black w-full xl:w-[85%] py-1 pl-2 bg-green-600 placeholder-white text-white focus:ring-0 border-none"
             />
             <input
               type="text"
+              value={fixPassword}
+              onChange={(e) => {
+                const newFixPassword = e.target.value;
+                setfixPasssword(newFixPassword);
+                if (password !== newFixPassword) {
+                  setWarning("no match");
+                } else {
+                  setWarning("");
+                }
+              }}
               placeholder="Confirm Password"
               className="rounded-xl border-[1px] border-black w-full xl:w-[85%] py-1 pl-2 bg-green-600 placeholder-white text-white focus:ring-0 border-none"
             />
-            <p className="font-bold text-wrap" >Select your position in the university: </p>
+            <p className="font-bold text-wrap">
+              Select your position in the university:
+            </p>
             <select className="w-[65%] border-2 font-bold bg-green-200 rounded-md p-1">
-            <option value="">Select</option>
+              <option value="">Select</option>
               <option value="Student">Student</option>
               <option value="Faculty">Faculty</option>
             </select>
+            <p className="text-red-500 text-sm">{warning}</p>
             <button className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl mt-8 hover:shadow-md">
               SignUp
             </button>
