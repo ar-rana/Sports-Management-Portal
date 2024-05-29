@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../index.css";
-import kiit from "../assets/Images/kiit.png";
+import wLogo from "../assets/Images/sport_wLogo.png";
 import logo from "../assets/Images/logo.png";
 import Modal from "react-modal";
 import { XMarkIcon } from "@heroicons/react/24/solid";
@@ -22,7 +22,7 @@ function Home() {
         <nav className="bg-green-100 md:border-0 border-b-2 border-gray-200 z-100 sticky h-18 top-0">
           <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a className="flex items-center space-x-3 rtl:space-x-reverse">
-              <img src={logo} className="h-10" alt="" />
+              <img src={logo} className="xl:h-16 md:h-16 h-10 rounded-lg" alt="" />
             </a>
             <div className="hidden w-full md:block md:w-auto">
               <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-green-100 ">
@@ -92,7 +92,7 @@ function Home() {
               </p>
             </div>
             <div>
-              <img src={kiit} className="ml-[13%] h-32 " />
+              <img src={wLogo} className="ml-[13%] h-20 mt-12" />
             </div>
           </div>
           <img

@@ -1,5 +1,4 @@
 import React from "react";
-import kiit from "../assets/Images/kiit.png";
 import logo from "../assets/Images/logo.png";
 import demo from "../assets/Images/demo.png";
 
@@ -14,7 +13,7 @@ const Coaches = () => {
           </div>
           <div className="absolute top-5 left-6">
             <a href="/">
-              <img src={logo} className="h-10" />
+              <img src={logo} className="xl:h-16 md:h-16 h-10 rounded-md" />
             </a>
           </div>
         </nav>

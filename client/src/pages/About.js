@@ -1,5 +1,5 @@
 import React from "react";
-import kiit from "../assets/Images/kiit.png";
+import wLogo from "../assets/Images/sport_wLogo.png";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 
 
@@ -31,7 +31,7 @@ const About = () => {
             impedit magni a inventore sit dignissimos?
           </p>
           <div className="hidden xl:inline xl:absolute md:inline md:absolute right-10 bottom-2">
-            <img src={kiit} className="h-32" />
+            <img src={wLogo} className="h-24" />
           </div>
         </div>
         <a href="/" className="flex items-center space-x-2 m-7 bg-green-600 w-max rounded-xl p-3 hover:shadow-md hover:bg-green-300">
