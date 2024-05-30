@@ -9,16 +9,54 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fixPassword, setfixPasssword] = useState("");
+  const [position, setPosition] = useState("");
   const [warning, setWarning] = useState("");
 
   useEffect(() => {}, []);
 
-  const warningState = () => {
+  function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
 
+  function checkPassword() {
+    if (password !== fixPassword || fixPassword.length < 8) {
+      setWarning("password does not match/passowrd must be atleast 8 characters");
+      return false
+    } else {
+      setWarning("");
+      return true
+    }
+  }
+
+  const warningState = () => {
+    const checkemail = validateEmail(email);
+    const validpassword = checkPassword();
+    if (!name) {
+      setWarning("enter a name");
+      return false
+    } 
+    if (!position) {
+      setWarning("select a position")
+      return false
+    }
+    if (!checkemail) {
+      setWarning("enter a valid email")
+      return false
+    }
+    if (!validpassword) {
+      return false
+    }
+    else {
+      setWarning("");
+      return true
+    }
+  
   };
 
   const onSubmithandler = (e) => {
     e.preventDefault();
+    warningState();
     alert("onSubmithandler triggered!!!");
   };
   return (
@@ -30,7 +68,7 @@ const Signup = () => {
         <a href="/" title="Home">
           <ArrowLeftIcon className="h-8 bg-white rounded-full absolute w-auto m-2 top-2 left-5 hover:bg-gray-300 hover:shadow-lg cursor-pointer" />
         </a>
-        <div className="flex flex-col space-y-1.5 items-center bg-white rounded-2xl py-3 px-6 lg:w-[25%] xl:w-[25%] w-auto">
+        <div className="flex flex-col space-y-1.5 items-center bg-white rounded-2xl py-3 px-6 lg:w-[25%] xl:w-[25%] w-auto m-6">
           <h2 className="text-green-700 text-2xl font-bold">Welcome!!</h2>
           <form
             className="flex flex-col space-y-1.5 items-center w-full"
@@ -60,22 +98,14 @@ const Signup = () => {
             <input
               type="text"
               value={fixPassword}
-              onChange={(e) => {
-                const newFixPassword = e.target.value;
-                setfixPasssword(newFixPassword);
-                if (password !== newFixPassword) {
-                  setWarning("no match");
-                } else {
-                  setWarning("");
-                }
-              }}
+              onChange={(e)=>setfixPasssword(e.target.value)}
               placeholder="Confirm Password"
               className="rounded-xl border-[1px] border-black w-full xl:w-[85%] py-1 pl-2 bg-green-600 placeholder-white text-white focus:ring-0 border-none"
             />
             <p className="font-bold text-wrap">
               Select your position in the university:
             </p>
-            <select className="w-[65%] border-2 font-bold bg-green-200 rounded-md p-1">
+            <select className="w-[65%] border-2 font-bold bg-green-200 rounded-md p-1" onChange={(e)=>setPosition(e.target.value)}>
               <option value="">Select</option>
               <option value="Student">Student</option>
               <option value="Faculty">Faculty</option>
