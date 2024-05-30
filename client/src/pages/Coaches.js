@@ -13,7 +13,7 @@ const Coaches = () => {
           </div>
           <div className="absolute top-5 left-6">
             <a href="/">
-              <img src={logo} className="xl:h-16 md:h-16 h-10 rounded-md" />
+              <img src={logo} className="xl:h-12 md:h-12 h-10 rounded-md" />
             </a>
           </div>
         </nav>
