@@ -11,8 +11,9 @@ const Signup = () => {
   const [fixPassword, setfixPasssword] = useState("");
   const [position, setPosition] = useState("");
   const [warning, setWarning] = useState("");
+  const [rollno, setRollno] = useState("");
 
-  const origin = "http://localhost:5000"
+  const origin = "http://localhost:5000";
   useEffect(() => {}, []);
 
   function validateEmail(email) {
@@ -22,11 +23,13 @@ const Signup = () => {
 
   function checkPassword() {
     if (password !== fixPassword || fixPassword.length < 8) {
-      setWarning("password does not match/passowrd must be atleast 8 characters");
-      return false
+      setWarning(
+        "password does not match/passowrd must be atleast 8 characters"
+      );
+      return false;
     } else {
       setWarning("");
-      return true
+      return true;
     }
   }
 
@@ -35,38 +38,68 @@ const Signup = () => {
     const validpassword = checkPassword();
     if (!name) {
       setWarning("enter a name");
-      return false
-    } 
+      return false;
+    }
     if (!position) {
-      setWarning("select a position")
-      return false
+      setWarning("select a position");
+      return false;
+    }
+    if (position === "Student" && !rollno) {
+      setWarning("enter your roll no.");
+      return false;
     }
     if (!checkemail) {
-      setWarning("enter a valid email")
-      return false
+      setWarning("enter a valid email");
+      return false;
     }
     if (!validpassword) {
-      return false
-    }
-    else {
+      return false;
+    } else {
       setWarning("");
-      return true
+      return true;
     }
-  
   };
 
-  const signUp = async () =>{
-    const call = await fetch(origin + "/signup").then((data)=>data.json());
-    console.log(call)
-
-  }
+  const signUp = async () => {
+    let res;
+    if (position === "Student") {
+      res = await fetch(origin + "/signup", {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          rollno: rollno,
+          password: fixPassword,
+          position: position,
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
+    } else {
+      res = await fetch(origin + "/signup", {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          password: fixPassword,
+          position: position,
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    const data = await res.json();
+    console.log("data: ", data)
+    console.log("res: ", res)
+  };
 
   const onSubmithandler = (e) => {
     e.preventDefault();
     const offer = warningState();
     alert("onSubmithandler triggered!!!");
     if (offer) {
-      console.log("in offer block")
+      console.log("in offer block");
+      signUp();
     }
   };
   return (
@@ -108,18 +141,30 @@ const Signup = () => {
             <input
               type="text"
               value={fixPassword}
-              onChange={(e)=>setfixPasssword(e.target.value)}
+              onChange={(e) => setfixPasssword(e.target.value)}
               placeholder="Confirm Password"
               className="rounded-xl border-[1px] border-black w-full xl:w-[85%] py-1 pl-2 bg-green-600 placeholder-white text-white focus:ring-0 border-none"
             />
             <p className="font-bold text-wrap">
               Select your position in the university:
             </p>
-            <select className="w-[65%] border-2 font-bold bg-green-200 rounded-md p-1" onChange={(e)=>setPosition(e.target.value)}>
+            <select
+              className="w-[65%] border-2 font-bold bg-green-200 rounded-md p-1"
+              onChange={(e) => setPosition(e.target.value)}
+            >
               <option value="">Select</option>
               <option value="Student">Student</option>
               <option value="Faculty">Faculty</option>
             </select>
+            {position === "Student" && (
+              <input
+                type="text"
+                value={rollno}
+                onChange={(e) => setRollno(e.target.value)}
+                placeholder="Roll Number"
+                className={`rounded-xl border-[1px] border-black w-full xl:w-[85%] py-1 pl-2 bg-green-600 placeholder-white text-white focus:ring-0 border-none`}
+              />
+            )}
             <p className="text-red-500 text-sm">{warning}</p>
             <button className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl mt-8 hover:shadow-md">
               SignUp
