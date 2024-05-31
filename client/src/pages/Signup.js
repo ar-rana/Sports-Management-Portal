@@ -12,6 +12,7 @@ const Signup = () => {
   const [position, setPosition] = useState("");
   const [warning, setWarning] = useState("");
 
+  const origin = "http://localhost:5000"
   useEffect(() => {}, []);
 
   function validateEmail(email) {
@@ -54,10 +55,19 @@ const Signup = () => {
   
   };
 
+  const signUp = async () =>{
+    const call = await fetch(origin + "/signup").then((data)=>data.json());
+    console.log(call)
+
+  }
+
   const onSubmithandler = (e) => {
     e.preventDefault();
-    warningState();
+    const offer = warningState();
     alert("onSubmithandler triggered!!!");
+    if (offer) {
+      console.log("in offer block")
+    }
   };
   return (
     <div>
