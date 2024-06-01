@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import bg from "../assets/Images/bg.jpeg";
-import Navbar from "../components/Navbar";
-import { Form } from "react-router-dom";
+import { UserContext } from "../UserContext";
 
 const Signup = () => {
+  const { user, setUser } = useContext(UserContext);
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,7 +15,11 @@ const Signup = () => {
   const [rollno, setRollno] = useState("");
 
   const origin = "http://localhost:5000";
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if(user){
+      console.log(user);
+    }
+  }, [user]);
 
   function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -89,8 +94,22 @@ const Signup = () => {
       });
     }
     const data = await res.json();
-    console.log("data: ", data)
-    console.log("res: ", res)
+    console.log("data: ", data);
+
+    setName("");
+    setEmail("");
+    setPassword("");
+    setfixPasssword("");
+    setPosition("");
+    setRollno("");
+
+    if (!data.user){
+      alert(data.message);
+    } else {
+      setUser(data.user);
+      alert(data.message);
+    }
+    
   };
 
   const onSubmithandler = (e) => {
@@ -150,6 +169,7 @@ const Signup = () => {
             </p>
             <select
               className="w-[65%] border-2 font-bold bg-green-200 rounded-md p-1"
+              defaultValue={""}
               onChange={(e) => setPosition(e.target.value)}
             >
               <option value="">Select</option>

@@ -5,7 +5,7 @@ module.exports.signup = async (req, res) => {
   if (req.body.position === "Student") {
     const { name, email, rollno, password, position } = req.body;
 
-    console.log(name, email, password, position);
+    console.log(name, email, rollno, password, position);
 
     try {
       const q = query(collection(db, "users"), where("email", "==", email ));
