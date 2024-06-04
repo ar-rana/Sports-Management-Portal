@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
@@ -10,6 +10,28 @@ import { UserContext } from "./UserContext";
 
 function App() {
   const [user, setUser] = useState();
+  const origin = "http://localhost:5000";
+
+  useEffect(()=>{
+    const verfyuser = async () => {
+      try {
+        const res = await fetch(`${origin}/verifyuser`, {
+          method: "GET",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" }
+        })
+        if (res) {
+          const data = await res.json()
+          console.log("id wala: ", data);
+        }
+      } catch (e) {
+        //console.log(e);
+        console.log(e);
+      }
+    };
+
+    verfyuser();
+  },[])
   return (
     <div>
       <BrowserRouter>
