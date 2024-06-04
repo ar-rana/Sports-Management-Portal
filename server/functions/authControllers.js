@@ -1,11 +1,24 @@
 const { db } = require("../firebase");
+const jwt = require("jsonwebtoken");
+const maxAge = 3 * 5 * 60 * 60;
 const {
   addDoc,
   collection,
   where,
   query,
   getDocs,
+  doc,
+  getDoc,
 } = require("firebase/firestore");
+const { get, use } = require("../routes/authRoutes");
+
+const createJWT = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: maxAge });
+};
+
+const createJWTUser = (user) => {
+  return jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: maxAge });
+};
 
 //signup
 
@@ -34,6 +47,9 @@ module.exports.signup = async (req, res) => {
           rollno: rollno,
           position: position,
         };
+
+        const token = createJWT(docref.id);
+        res.cookie("userid", token, { maxAge: maxAge * 1000 });
         res.status(201).json({
           user: createdUser,
           message: "User created successfully",
@@ -69,6 +85,9 @@ module.exports.signup = async (req, res) => {
           email: email,
           position: position,
         };
+
+        const token = createJWT(docref.id);
+        res.cookie("userid", token, { maxAge: maxAge * 1000 });
         res.status(201).json({
           user: createdUser,
           message: "User created successfully",
@@ -91,12 +110,13 @@ module.exports.login = async (req, res) => {
   const { email, password } = req.body;
   console.log(email, password);
   try {
+    // put these 2 lines after the if block
     const q = query(collection(db, "users"), where("email", "==", email));
     const user = await getDocs(q);
     if (!user.empty) {
       const userDoc = user.docs[0]; //because getDocs() return a "QueryDocumentSnapshot" that needs to be looped through to get data. Here user is the QueryDocumentSnapshot
-      const userData = userDoc.data()
-      if (userData.password === password){
+      const userData = userDoc.data();
+      if (userData.password === password) {
         const existingUser = {
           id: userDoc.id,
           name: userData.name,
@@ -104,13 +124,20 @@ module.exports.login = async (req, res) => {
           position: userData.position,
         };
         console.log(existingUser);
+        //checking if i can save user as cookie (user data)
+        const token = createJWT(userDoc.id);
+        res.cookie("userid", token, { maxAge: maxAge * 1000 });
+
+        const userToken = createJWTUser(existingUser);
+        res.cookie("user", userToken, { maxAge: maxAge * 1000 });
+
         res.status(200).json({
           user: existingUser,
-          message: "Login Sucessfull"
+          message: "Login Sucessfull",
         });
       } else {
         res.status(401).json({
-          message: "Incorrect Password"
+          message: "Incorrect Password",
         });
       }
     } else {
@@ -121,4 +148,62 @@ module.exports.login = async (req, res) => {
   } catch (e) {
     console.log(e);
   }
+};
+
+// verfying user
+
+module.exports.verifyuser = async (req, res, next) => {
+  const token = req.cookies.userid;
+  console.log(token);
+  if (token) {
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("decoded token: ", decodedToken);
+
+    try {
+      const docref = doc(db, "users", decodedToken.id);
+      const user = await getDoc(docref);
+      if (user.empty) {
+        console.log("not found");
+        res.status(404).json({ message: "Unauthorized User" });
+      } else {
+        console.log(user);
+        const userData = user.data();
+        const User = {
+          id: docref.id,
+          name: userData.name,
+          email: userData.email,
+          position: userData.position,
+        };
+        console.log(User);
+        res.json({ user: User });
+      }
+      next();
+    } catch (e) {
+      console.log(e.message);
+    }
+  } else {
+    res.status(404);
+  }
+};
+
+// verifyuser object
+
+module.exports.verifyuserObject = async (req, res, next) => {
+  const token = req.cookies.user;
+  console.log(token);
+  if (token) {
+    const user = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(user);
+    res.status(200).json({ user: user });
+  } else {
+    res.status(404);
+  }
+};
+
+// logout
+
+module.exports.logout = (req, res) => {
+  res.cookie("userid", ":", { maxAge: 1 });
+  res.cookie("user", ":", { maxAge: 1 });
+  res.status(200).json({ Logout: true });
 };
