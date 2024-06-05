@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import bg from "../assets/Images/bg.jpeg";
 import { UserContext } from "../UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const { user, setUser } = useContext(UserContext);
@@ -15,9 +16,12 @@ const Signup = () => {
   const [rollno, setRollno] = useState("");
 
   const origin = "http://localhost:5000";
+  const navigate = useNavigate();
+
   useEffect(() => {
     if(user){
-      console.log(user);
+      console.log("user hai: ", user);
+      navigate('/', {replace: true}) // replace : true, replaces the current history location in the browser's history
     }
   }, [user]);
 

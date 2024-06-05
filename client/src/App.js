@@ -15,17 +15,17 @@ function App() {
   useEffect(()=>{
     const verfyuser = async () => {
       try {
-        const res = await fetch(`${origin}/verifyuser`, {
+        const res = await fetch(`${origin}/verifyuserobject`, {
           method: "GET",
           credentials: "include",
           headers: { "Content-Type": "application/json" }
         })
         if (res) {
           const data = await res.json()
-          console.log("id wala: ", data);
+          console.log(data);
+          setUser(data.user.user)
         }
       } catch (e) {
-        //console.log(e);
         console.log(e);
       }
     };

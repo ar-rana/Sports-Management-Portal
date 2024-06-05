@@ -1,6 +1,6 @@
 const { db } = require("../firebase");
 const jwt = require("jsonwebtoken");
-const maxAge = 3 * 5 * 60 * 60;
+const maxAge = 1 * 5 * 60 * 60;
 const {
   addDoc,
   collection,
@@ -12,9 +12,9 @@ const {
 } = require("firebase/firestore");
 const { get, use } = require("../routes/authRoutes");
 
-const createJWT = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: maxAge });
-};
+// const createJWT = (id) => {
+//   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: maxAge });
+// };
 
 const createJWTUser = (user) => {
   return jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: maxAge });
@@ -48,8 +48,8 @@ module.exports.signup = async (req, res) => {
           position: position,
         };
 
-        const token = createJWT(docref.id);
-        res.cookie("userid", token, { maxAge: maxAge * 1000 });
+        const token = createJWTUser(createdUser);
+        res.cookie("user", token, { maxAge: maxAge * 1000 });
         res.status(201).json({
           user: createdUser,
           message: "User created successfully",
@@ -86,8 +86,8 @@ module.exports.signup = async (req, res) => {
           position: position,
         };
 
-        const token = createJWT(docref.id);
-        res.cookie("userid", token, { maxAge: maxAge * 1000 });
+        const token = createJWTUser(createdUser);
+        res.cookie("user", token, { maxAge: maxAge * 1000 });
         res.status(201).json({
           user: createdUser,
           message: "User created successfully",
@@ -124,9 +124,9 @@ module.exports.login = async (req, res) => {
           position: userData.position,
         };
         console.log(existingUser);
-        //checking if i can save user as cookie (user data)
-        const token = createJWT(userDoc.id);
-        res.cookie("userid", token, { maxAge: maxAge * 1000 });
+
+        // const token = createJWT(userDoc.id);
+        // res.cookie("userid", token, { maxAge: maxAge * 1000 });
 
         const userToken = createJWTUser(existingUser);
         res.cookie("user", userToken, { maxAge: maxAge * 1000 });
@@ -152,46 +152,46 @@ module.exports.login = async (req, res) => {
 
 // verfying user
 
-module.exports.verifyuser = async (req, res, next) => {
-  const token = req.cookies.userid;
-  console.log(token);
-  if (token) {
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("decoded token: ", decodedToken);
+// module.exports.verifyuser = async (req, res, next) => {
+//   const token = req.cookies.userid;
+//   console.log(token);
+//   if (token) {
+//     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+//     console.log("decoded token: ", decodedToken);
 
-    try {
-      const docref = doc(db, "users", decodedToken.id);
-      const user = await getDoc(docref);
-      if (user.empty) {
-        console.log("not found");
-        res.status(404).json({ message: "Unauthorized User" });
-      } else {
-        console.log(user);
-        const userData = user.data();
-        const User = {
-          id: docref.id,
-          name: userData.name,
-          email: userData.email,
-          position: userData.position,
-        };
-        console.log(User);
-        res.json({ user: User });
-      }
-      next();
-    } catch (e) {
-      console.log(e.message);
-    }
-  } else {
-    res.status(404);
-  }
-};
+//     try {
+//       const docref = doc(db, "users", decodedToken.id);
+//       const user = await getDoc(docref);
+//       if (user.empty) {
+//         console.log("not found");
+//         res.status(404).json({ message: "Unauthorized User" });
+//       } else {
+//         console.log(user);
+//         const userData = user.data();
+//         const User = {
+//           id: docref.id,
+//           name: userData.name,
+//           email: userData.email,
+//           position: userData.position,
+//         };
+//         console.log(User);
+//         res.json({ user: User });
+//       }
+//       next();
+//     } catch (e) {
+//       console.log(e.message);
+//     }
+//   } else {
+//     res.status(404);
+//   }
+// };
 
 // verifyuser object
 
 module.exports.verifyuserObject = async (req, res, next) => {
   const token = req.cookies.user;
-  console.log(token);
   if (token) {
+    console.log(token);
     const user = jwt.verify(token, process.env.JWT_SECRET);
     console.log(user);
     res.status(200).json({ user: user });
@@ -203,7 +203,7 @@ module.exports.verifyuserObject = async (req, res, next) => {
 // logout
 
 module.exports.logout = (req, res) => {
-  res.cookie("userid", ":", { maxAge: 1 });
+  // res.cookie("userid", ":", { maxAge: 1 });
   res.cookie("user", ":", { maxAge: 1 });
   res.status(200).json({ Logout: true });
 };
