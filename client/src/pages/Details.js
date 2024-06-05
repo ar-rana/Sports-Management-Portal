@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Moment from "react-moment";
+import { UserContext } from "../UserContext";
 
 const Details = () => {
+  const { user } = useContext(UserContext);
   const { id } = useParams();
   const location = useLocation();
   const { tournamentData } = location.state;

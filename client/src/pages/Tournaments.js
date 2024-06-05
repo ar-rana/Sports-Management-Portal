@@ -1,5 +1,5 @@
 import { ArrowLeftIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-modal";
 import TournamentBar from "../components/TournamentBar";
 import { db, storage } from "../firebase";
@@ -11,8 +11,10 @@ import {
   addDoc,
   onSnapshot,
 } from "firebase/firestore";
+import { UserContext } from "../UserContext";
 
 const Tournaments = () => {
+  const { user } = useContext(UserContext);
   const [tournaments, setTournaments] = useState([]);
   const [open, setOpen] = useState(false);
   const [sport, setSport] = useState(null);
@@ -31,6 +33,12 @@ const Tournaments = () => {
       (snapshot) => setTournaments(snapshot.docs)
     );
   }, [db]);
+
+  useEffect(()=>{
+    if (user){
+      console.log("user hai: ",user)
+    }
+  },[user])
 
   const onSubmitHandler = (e) => {
     e.preventDefault();

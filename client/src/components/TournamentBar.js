@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Details from "../pages/Details";
 
 const TournamentBar = ({ tournament }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // put this inside the route function
 
   const routeFunction = () => {
     const tournamentData = tournament.data();

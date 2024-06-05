@@ -1,28 +1,100 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../index.css";
 import wLogo from "../assets/Images/sport_wLogo.png";
 import logo from "../assets/Images/logo.png";
 import Modal from "react-modal";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import sport from "../assets/Images/sport.png";
+import { UserContext } from "../UserContext";
 
 function Home() {
+  const { user, setUser } = useContext(UserContext);
+
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [warning, setWarning] = useState("");
+
+  const origin = "http://localhost:5000";
+
+  useEffect(() => {
+    if (user) {
+      console.log("user hai: ", user);
+    }
+  }, [user]);
+
+  const login = async () => {
+    let res;
+    res = await fetch(`${origin}/login`, {
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+    if (res.status === 404) {
+      alert(data.message);
+    }
+    if (res.status === 401) {
+      setWarning(data.message);
+    }
+    if (res.status === 200) {
+      setUser(data.user);
+      setEmail("");
+      setPassword("");
+      setOpen(false);
+      console.log(data.message);
+    }
+  };
+
+  const warningState = () => {
+    if (!email || !password) {
+      setWarning("Enter all Fields");
+      return false;
+    } else {
+      setWarning("");
+      return true;
+    }
+  };
 
   const LoginSubmitHandler = (e) => {
     e.preventDefault();
+    const offer = warningState();
     alert("submit hadler triggered");
+    if (offer) {
+      console.log("in offer block - login");
+      login();
+    }
   };
+
+  const logout = async () =>{
+    const res = await fetch(`${origin}/logout`, {
+      method: "GET",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" }
+    })
+    const data = await res.json();
+    console.log(data);
+  }
 
   return (
     <div className="">
       <div className="bg-green-100 h-screen xl:overflow-hidden md:overflow-hidden">
-        <nav className="bg-green-100 md:border-0 border-b-2 border-gray-200 z-100 sticky h-18 top-0">
+      {/*  use navbar component here */}
+        <nav className="bg-green-100 md:border-0 border-b-2 border-gray-200 z-100 sticky h-18 top-0"> 
           <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a className="flex items-center space-x-3 rtl:space-x-reverse">
-              <img src={logo} className="xl:h-16 md:h-16 h-10 rounded-lg" alt="" />
+              <img
+                src={logo}
+                className="xl:h-16 md:h-16 h-10 rounded-lg"
+                alt=""
+              />
             </a>
             <div className="hidden w-full md:block md:w-auto">
               <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-green-100 ">
@@ -60,20 +132,26 @@ function Home() {
                 </li>
               </ul>
             </div>
-            <div className="flex space-x-2 px-8">
-              <button
-                className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md cursor-pointer"
-                onClick={() => setOpen((prevstate) => !prevstate)}
-              >
-                Login
-              </button>
-              <a
-                className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md"
-                href="/signup"
-              >
-                Sign up
+            {user ? (
+              <a onClick={logout} href="/" className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md cursor-pointer">
+                Logout
               </a>
-            </div>
+            ) : (
+              <div className="flex space-x-2 px-8">
+                <button
+                  className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md cursor-pointer"
+                  onClick={() => setOpen((prevstate) => !prevstate)}
+                >
+                  Login
+                </button>
+                <a
+                  className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md"
+                  href="/signup"
+                >
+                  Sign up
+                </a>
+              </div>
+            )}
           </div>
         </nav>
         <div className="">
@@ -166,6 +244,7 @@ function Home() {
                   type="text"
                   placeholder="Enter Password"
                 />
+                <p className="text-red-500 text-sm">{warning}</p>
                 <button
                   type="submit"
                   className="bg-green-500 p-2 rounded-lg font-medium"
