@@ -204,6 +204,6 @@ module.exports.verifyuserObject = async (req, res, next) => {
 
 module.exports.logout = (req, res) => {
   // res.cookie("userid", ":", { maxAge: 1 });
-  res.cookie("user", ":", { maxAge: 1 });
+  res.cookie("user", ":", { maxAge: 0 });
   res.status(200).json({ Logout: true });
 };

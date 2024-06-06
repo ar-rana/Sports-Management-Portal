@@ -3,6 +3,8 @@ import { useLocation, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Moment from "react-moment";
 import { UserContext } from "../UserContext";
+import { db } from "../firebase";
+import { addDoc, collection } from "firebase/firestore";
 
 const Details = () => {
   const { user } = useContext(UserContext);
@@ -11,6 +13,17 @@ const Details = () => {
   const { tournamentData } = location.state;
 
   const timeStampDate = new Date(tournamentData.timeStamp.seconds * 1000);
+
+  const register = async () => {
+    if (user) {
+      await addDoc(collection(db, "tournaments", id, "registered"), {
+        userID: user.id,
+        usersName: user.name,
+      });
+    } else {
+      alert("login to register");
+    }
+  };
 
   useEffect(() => {}, []);
 
@@ -33,7 +46,7 @@ const Details = () => {
             </h3>
             <br />
             <div className="flex w-full justify-between font-semibold p-6 mx-2">
-              <span>Organized By: someone(for now)</span>
+              <span>Updated By: {tournamentData.organizer}</span>
               <span>Registered: someNumber(for now)</span>
             </div>
             <div className="mr-auto ml-6 font-semibold p-3 space-y-2">
@@ -49,8 +62,11 @@ const Details = () => {
                 {tournamentData.description}
               </p>
             </div>
-            <br/>
-            <button className="w-max py-1.5 px-3 mt-auto rounded-full bg-white text-black font-bold hover:shadow-xl hover:bg-green-100" >
+            <br />
+            <button
+              onClick={register}
+              className="w-max py-1.5 px-3 mt-auto rounded-full bg-white text-black font-bold hover:shadow-xl hover:bg-green-100"
+            >
               Register for Tournament
             </button>
             <div className="mt-auto ml-auto mr-6">
@@ -60,9 +76,11 @@ const Details = () => {
             </div>
           </div>
           <div className="mr-auto ml-6">
-              <p className="font-medium xl:text-3xl md:text-3xl text-xl mt-3 text-white">Images: </p>
+            <p className="font-medium xl:text-3xl md:text-3xl text-xl mt-3 text-white">
+              Images:{" "}
+            </p>
           </div>
-          <br/>
+          <br />
         </div>
       </div>
     </div>

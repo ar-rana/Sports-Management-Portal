@@ -34,53 +34,58 @@ const Tournaments = () => {
     );
   }, [db]);
 
-  useEffect(()=>{
-    if (user){
-      console.log("user hai: ",user)
+  useEffect(() => {
+    if (user) {
+      console.log("user hai: ", user);
     }
-  },[user])
+  }, [user]);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
     alert(`Sport value set to ${sport}`);
-    console.log(tournaments.length)
-    
+    console.log(tournaments.length);
+
     if (sport) {
       const tournamentsCopy = [...tournaments];
 
       const sportArray = [];
       const otherArray = [];
 
-      tournamentsCopy.forEach(tournament => {
+      tournamentsCopy.forEach((tournament) => {
         if (tournament.data().sport.toLowerCase() === sport) {
           sportArray.push(tournament);
         } else {
           otherArray.push(tournament);
         }
-      })
-      setTournaments(sportArray.concat(otherArray))
+      });
+      setTournaments(sportArray.concat(otherArray));
     }
   };
 
   const registerTournament = async (e) => {
     e.preventDefault();
-    const collectionref = collection(db, "tournaments");
-    const docref = await addDoc(collectionref, {
-      name: name,
-      sport: tournamentsport.toLowerCase(),
-      startingDate: start,
-      endingDate: end,
-      description: description,
-      timeStamp: serverTimestamp(),
-    });
-    setOpen(false);
-    alert("Tournament Registered!!");
+    if (!user) {
+      return alert("login to create tournament");
+    } else {
+      const collectionref = collection(db, "tournaments");
+      const docref = await addDoc(collectionref, {
+        name: name,
+        sport: tournamentsport.toLowerCase(),
+        startingDate: start,
+        endingDate: end,
+        description: description,
+        organizer: user.name,
+        timeStamp: serverTimestamp(),
+      });
+      setOpen(false);
+      alert("Tournament Registered!!");
 
-    setName("");
-    setTournamentSport("");
-    setstartDate("");
-    setendDate("");
-    setDescription("");
+      setName("");
+      setTournamentSport("");
+      setstartDate("");
+      setendDate("");
+      setDescription("");
+    }
   };
 
   return (

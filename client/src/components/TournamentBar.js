@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import Details from "../pages/Details";
 
 const TournamentBar = ({ tournament }) => {
-  const navigate = useNavigate(); // put this inside the route function
+  const navigate = useNavigate();
 
   const routeFunction = () => {
     const tournamentData = tournament.data();
+    const tournamentID = tournament.id;
 
-    navigate(`/tournament/${tournament.id}`, { state: { tournamentData } });
+    navigate(`/tournament/${tournament.id}`, { state: { tournamentData, tournamentID } });
   };
   return (
     <div className="bg-green-600 w-[75%] flex flex-col sm:flex-row rounded-lg">
