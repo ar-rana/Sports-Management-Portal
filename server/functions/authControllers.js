@@ -1,6 +1,6 @@
 const { db } = require("../firebase");
 const jwt = require("jsonwebtoken");
-const maxAge = 1 * 5 * 60 * 60;
+const maxAge = 1 * 24 * 60 * 60;
 const {
   addDoc,
   collection,
@@ -189,7 +189,7 @@ module.exports.login = async (req, res) => {
 // verifyuser object
 
 module.exports.verifyuserObject = async (req, res, next) => {
-  const token = req.cookies.user;
+  const token = await req.cookies.user;
   if (token) {
     console.log(token);
     const user = jwt.verify(token, process.env.JWT_SECRET);

@@ -1,16 +1,31 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Moment from "react-moment";
 import { UserContext } from "../UserContext";
 import { db } from "../firebase";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  Query,
+  query,
+  where,
+} from "firebase/firestore";
+import { deleteObject } from "firebase/storage";
 
 const Details = () => {
   const { user } = useContext(UserContext);
   const { id } = useParams();
   const location = useLocation();
   const { tournamentData } = location.state;
+
+  const [registrations, setRegistrations] = useState();
+  const [isregistered, setIsregistered] = useState(false);
 
   const timeStampDate = new Date(tournamentData.timeStamp.seconds * 1000);
 
@@ -25,7 +40,31 @@ const Details = () => {
     }
   };
 
-  useEffect(() => {}, []);
+  const unregister = async () => {
+    if (user) {
+      const q = query(collection(db, "tournaments", id, "registered"),where("userID", "==", user.id));
+      const querysnapsnot = await getDocs(q);
+
+      querysnapsnot.forEach(async (entry)=> await deleteDoc(doc(db, "tournaments", id, "registered", entry.id)));
+      setIsregistered(false);
+    }
+  }
+
+  useEffect(() => {
+    onSnapshot(
+      query(collection(db, "tournaments", id, "registered")),
+      (snapshot) => {
+        const Querydocs = snapshot.docs;
+        if (
+          user &&
+          Querydocs.findIndex((doc) => doc.data().userID === user.id) !== -1
+        ) {
+          setIsregistered(true);
+        }
+        setRegistrations(Querydocs.length);
+      }
+    );
+  }, [user]);
 
   return (
     <div>
@@ -47,7 +86,7 @@ const Details = () => {
             <br />
             <div className="flex w-full justify-between font-semibold p-6 mx-2">
               <span>Updated By: {tournamentData.organizer}</span>
-              <span>Registered: someNumber(for now)</span>
+              <span>Registered: {registrations}</span>
             </div>
             <div className="mr-auto ml-6 font-semibold p-3 space-y-2">
               <h2 className="hover:underline">
@@ -63,14 +102,23 @@ const Details = () => {
               </p>
             </div>
             <br />
-            <button
-              onClick={register}
-              className="w-max py-1.5 px-3 mt-auto rounded-full bg-white text-black font-bold hover:shadow-xl hover:bg-green-100"
-            >
-              Register for Tournament
-            </button>
+            {isregistered ? (
+              <button
+                onClick={unregister}
+                className="w-max py-1.5 px-3 mt-auto rounded-full bg-white text-black font-bold hover:shadow-xl hover:bg-green-100"
+              >
+                Unregister
+              </button>
+            ) : (
+              <button
+                onClick={register}
+                className="w-max py-1.5 px-3 mt-auto rounded-full bg-white text-black font-bold hover:shadow-xl hover:bg-green-100"
+              >
+                Register for Tournament
+              </button>
+            )}
             <div className="mt-auto ml-auto mr-6">
-              <p className="text-md text-white hover:text-base xl:text-sm md:text-sm">
+              <p className="text-md text-white hover:text-base  xl:text-sm md:text-sm">
                 Created: <Moment fromNow>{timeStampDate}</Moment>
               </p>
             </div>
