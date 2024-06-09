@@ -4,6 +4,7 @@ import { UserContext } from "../UserContext";
 
 const Navbar = () => {
   const { user } = useContext(UserContext);
+  const origin = "http://localhost:5000";
 
   const logout = async () =>{
     const res = await fetch(`${origin}/logout`, {
@@ -13,6 +14,7 @@ const Navbar = () => {
     })
     const data = await res.json();
     console.log(data);
+    window.location.reload()
   }
 
   return (
@@ -59,9 +61,9 @@ const Navbar = () => {
             </ul>
           </div>
           {user ? (
-            <a onClick={logout} href="/" className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md cursor-pointer">
+            <button onClick={logout} className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md cursor-pointer">
               Logout
-            </a>
+            </button>
           ) : (
             <div className="flex space-x-2 px-8">
               <button className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md cursor-pointer">

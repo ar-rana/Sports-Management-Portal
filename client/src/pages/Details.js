@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { redirect, useLocation, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Moment from "react-moment";
 import { UserContext } from "../UserContext";
-import { db } from "../firebase";
+import { db, storage } from "../firebase";
 import {
   addDoc,
   collection,
@@ -16,7 +16,13 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { deleteObject } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  listAll,
+  ref,
+  uploadString,
+} from "firebase/storage";
 
 const Details = () => {
   const { user } = useContext(UserContext);
@@ -26,6 +32,8 @@ const Details = () => {
 
   const [registrations, setRegistrations] = useState();
   const [isregistered, setIsregistered] = useState(false);
+  const fileChosser = useRef(null);
+  const [images, setImages] = useState(null);
 
   const timeStampDate = new Date(tournamentData.timeStamp.seconds * 1000);
 
@@ -42,13 +50,58 @@ const Details = () => {
 
   const unregister = async () => {
     if (user) {
-      const q = query(collection(db, "tournaments", id, "registered"),where("userID", "==", user.id));
+      const q = query(
+        collection(db, "tournaments", id, "registered"),
+        where("userID", "==", user.id)
+      );
       const querysnapsnot = await getDocs(q);
 
-      querysnapsnot.forEach(async (entry)=> await deleteDoc(doc(db, "tournaments", id, "registered", entry.id)));
+      querysnapsnot.forEach(
+        async (entry) =>
+          await deleteDoc(doc(db, "tournaments", id, "registered", entry.id))
+      );
       setIsregistered(false);
     }
-  }
+  };
+
+  const getBase64 = async (e) => {
+    if (!user) {
+      return;
+    }
+    const reader = new FileReader();
+    const file = e.target.files[0];
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onload = async (readerEvent) => {
+        console.log(readerEvent.target.result);
+        const imageBase64 = readerEvent.target.result;
+
+        const images = ref(storage, `images/${id}`);
+        const listofimages = await listAll(images);
+        const listlength = listofimages.items.length;
+
+        const imageref = ref(storage, `images/${id}/${listlength + 1}`);
+        await uploadString(imageref, imageBase64, "data_url").then(async () => {
+          const imageURL = await getDownloadURL(imageref);
+          console.log(imageURL);
+        });
+      };
+    }
+  };
+
+  const getImages = async () => {
+    const listofImages = await listAll(ref(storage, `images/${id}`));
+    const allitems = listofImages.items;
+
+    if (!allitems) {
+      return;
+    }
+
+    const urls = await Promise.all(
+      allitems.map((imageRef) => getDownloadURL(imageRef))
+    );
+    setImages(urls);
+  };
 
   useEffect(() => {
     onSnapshot(
@@ -64,6 +117,7 @@ const Details = () => {
         setRegistrations(Querydocs.length);
       }
     );
+    getImages();
   }, [user]);
 
   return (
@@ -123,10 +177,44 @@ const Details = () => {
               </p>
             </div>
           </div>
-          <div className="mr-auto ml-6">
-            <p className="font-medium xl:text-3xl md:text-3xl text-xl mt-3 text-white">
-              Images:{" "}
+          <div className="w-full flex flex-col">
+            <p className="mr-auto ml-6 font-medium xl:text-3xl md:text-3xl text-xl mt-3 text-white">
+              Images:
+              {user ? (
+                ""
+              ) : (
+                <span className="text-sm text-red-600">
+                  <br />
+                  'login to upload images'
+                </span>
+              )}
             </p>
+            <div className="flex overflow-x-scroll w-[90%] mr-auto ml-auto m-5 space-x-4 p-4">
+              {images &&
+                images.map((url, index) => (
+                  <a href={url} target="_blank">
+                    <img key={index} src={url} width="250" />
+                  </a>
+                ))}
+            </div>
+            {user && (
+              <div className="mr-auto ml-6 w-max py-1.5 px-3 rounded-full bg-white text-black font-bold hover:shadow-xl hover:bg-green-100 mt-5">
+                <button onClick={() => fileChosser.current.click()}>
+                  Upload Image
+                </button>
+                <input
+                  hidden
+                  ref={fileChosser}
+                  onClick={() => {
+                    if (!user) {
+                      return alert("login to upload insites");
+                    }
+                  }}
+                  onChange={getBase64}
+                  type="file"
+                />
+              </div>
+            )}
           </div>
           <br />
         </div>
