@@ -1,21 +1,77 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import logo from "../assets/Images/logo.png";
 import { UserContext } from "../UserContext";
+import Modal from "react-modal";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 
 const Navbar = () => {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const origin = "http://localhost:5000";
+  const [open, setOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [warning, setWarning] = useState("");
 
-  const logout = async () =>{
+  const logout = async () => {
     const res = await fetch(`${origin}/logout`, {
       method: "GET",
       credentials: "include",
-      headers: { "Content-Type": "application/json" }
-    })
+      headers: { "Content-Type": "application/json" },
+    });
     const data = await res.json();
     console.log(data);
-    window.location.reload()
-  }
+    window.location.reload();
+  };
+
+  const login = async () => {
+    let res;
+    res = await fetch(`${origin}/login`, {
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+    if (res.status === 404) {
+      alert(data.message);
+    }
+    if (res.status === 401) {
+      setWarning(data.message);
+    }
+    if (res.status === 200) {
+      setUser(data.user);
+      setEmail("");
+      setPassword("");
+      setOpen(false);
+      console.log(data.message);
+    }
+  };
+
+  const warningState = () => {
+    if (!email || !password) {
+      setWarning("Enter all Fields");
+      return false;
+    } else {
+      setWarning("");
+      return true;
+    }
+  };
+
+  const LoginSubmitHandler = (e) => {
+    e.preventDefault();
+    const offer = warningState();
+    alert("submit hadler triggered");
+    if (offer) {
+      console.log("in offer block - login");
+      login();
+    }
+  };
 
   return (
     <div className="bg-green-100">
@@ -61,12 +117,18 @@ const Navbar = () => {
             </ul>
           </div>
           {user ? (
-            <button onClick={logout} className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md cursor-pointer">
+            <button
+              onClick={logout}
+              className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md cursor-pointer"
+            >
               Logout
             </button>
           ) : (
             <div className="flex space-x-2 px-8">
-              <button className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md cursor-pointer">
+              <button
+                className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md cursor-pointer"
+                onClick={() => setOpen((prevstate) => !prevstate)}
+              >
                 Login
               </button>
               <a
@@ -79,6 +141,52 @@ const Navbar = () => {
           )}
         </div>
       </nav>
+      {open && (
+        <Modal
+          className="max-w-lg h-auto w-[90%] absolute top-24 left-[50%] translate-x-[-50%] bg-white border-2 border-gray-400 rounded-xl shadow-md"
+          isOpen={open}
+          onRequestClose={() => setOpen(false)}
+        >
+          <div className="p-1">
+            <div className="border-b border-gray-200">
+              <div
+                onClick={() => setOpen(false)}
+                className="hoverEffect p-0 w-9 h-9 flex items-center justify-center"
+              >
+                <XMarkIcon
+                  className="h-[22px] text-gray-600 cursor-pointer hover:bg-gray-200 rounded-full"
+                  onClick={() => setOpen(false)}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col p-4">
+              <form className="space-y-2" onSubmit={LoginSubmitHandler}>
+                <input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="text-black bg-gray-200 w-full p-2 rounded-lg"
+                  type="text"
+                  placeholder="Enter Email"
+                />
+                <input
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="text-black bg-gray-200 w-full p-2 rounded-lg"
+                  type="text"
+                  placeholder="Enter Password"
+                />
+                <p className="text-red-500 text-sm">{warning}</p>
+                <button
+                  type="submit"
+                  className="bg-green-500 p-2 rounded-lg font-medium"
+                >
+                  Login
+                </button>
+              </form>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

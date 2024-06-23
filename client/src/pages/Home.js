@@ -81,13 +81,14 @@ function Home() {
     })
     const data = await res.json();
     console.log(data);
+    window.location.reload()
   }
 
   return (
     <div className="">
       <div className="bg-green-100 h-screen xl:overflow-hidden md:overflow-hidden">
-      {/*  use navbar component here */}
-        <nav className="bg-green-100 md:border-0 border-b-2 border-gray-200 z-100 sticky h-18 top-0"> 
+        {/*  use navbar component here */}
+        <nav className="bg-green-100 md:border-0 border-b-2 border-gray-200 z-100 sticky h-18 top-0">
           <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a className="flex items-center space-x-3 rtl:space-x-reverse">
               <img
@@ -133,9 +134,12 @@ function Home() {
               </ul>
             </div>
             {user ? (
-              <a onClick={logout} href="/" className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md cursor-pointer">
+              <button
+                onClick={logout}
+                className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md cursor-pointer"
+              >
                 Logout
-              </a>
+              </button>
             ) : (
               <div className="flex space-x-2 px-8">
                 <button
