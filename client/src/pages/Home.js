@@ -1,89 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import "../index.css";
 import Navbar from "../components/Navbar";
 import wLogo from "../assets/Images/sport_wLogo.png";
-import logo from "../assets/Images/logo.png";
-import Modal from "react-modal";
-import { XMarkIcon } from "@heroicons/react/24/solid";
 import sport from "../assets/Images/sport.png";
 import { UserContext } from "../UserContext";
 
 function Home() {
-  const { user, setUser } = useContext(UserContext);
-
-  const [open, setOpen] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [warning, setWarning] = useState("");
-
-  const origin = "http://localhost:5000";
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     if (user) {
-      console.log("user hai: ", user);
+      console.log("true");
     }
   }, [user]);
-
-  const login = async () => {
-    let res;
-    res = await fetch(`${origin}/login`, {
-      method: "POST",
-      credentials: "include",
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    const data = await res.json();
-    console.log(data);
-
-    if (res.status === 404) {
-      alert(data.message);
-    }
-    if (res.status === 401) {
-      setWarning(data.message);
-    }
-    if (res.status === 200) {
-      setUser(data.user);
-      setEmail("");
-      setPassword("");
-      setOpen(false);
-      console.log(data.message);
-    }
-  };
-
-  const warningState = () => {
-    if (!email || !password) {
-      setWarning("Enter all Fields");
-      return false;
-    } else {
-      setWarning("");
-      return true;
-    }
-  };
-
-  const LoginSubmitHandler = (e) => {
-    e.preventDefault();
-    const offer = warningState();
-    alert("submit hadler triggered");
-    if (offer) {
-      console.log("in offer block - login");
-      login();
-    }
-  };
-
-  const logout = async () => {
-    const res = await fetch(`${origin}/logout`, {
-      method: "GET",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-    });
-    const data = await res.json();
-    console.log(data);
-    window.location.reload();
-  };
 
   return (
     <div className="">
@@ -111,7 +40,7 @@ function Home() {
             </div>
           </div>
           <img
-            className="hidden z-5 xl:block md:block relative md:bottom-[200px] ml-auto md:h-[500px] xl:h-[600px] xl:bottom-[300px]"
+            className="hidden z-5 xl:block md:block relative md:bottom-[300px] ml-auto md:h-[450px] xl:h-[480px] xl:bottom-[350px]"
             src={sport}
           />
         </div>

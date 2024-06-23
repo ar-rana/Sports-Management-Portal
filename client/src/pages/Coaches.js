@@ -22,14 +22,6 @@ const Coaches = () => {
           {loop.map((each, index) => (
             <CoachCard key={index}/>
           ))}
-          {/* <div className="flex flex-col">
-            <div>
-              <img src={demo} className="w-28" />
-            </div>
-            <div className="rounded-2xl bg-green-300 w-28 h-6">
-              Name & Sport
-            </div>
-          </div> */}
         </div>
       </div>
     </div>

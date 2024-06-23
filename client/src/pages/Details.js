@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { redirect, useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Moment from "react-moment";
 import { UserContext } from "../UserContext";
@@ -9,20 +9,12 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDoc,
   getDocs,
   onSnapshot,
-  Query,
   query,
   where,
 } from "firebase/firestore";
-import {
-  deleteObject,
-  getDownloadURL,
-  listAll,
-  ref,
-  uploadString,
-} from "firebase/storage";
+import { getDownloadURL, listAll, ref, uploadString } from "firebase/storage";
 
 const Details = () => {
   const { user } = useContext(UserContext);
@@ -68,24 +60,30 @@ const Details = () => {
     if (!user) {
       return;
     }
-    const reader = new FileReader();
-    const file = e.target.files[0];
-    if (file) {
-      reader.readAsDataURL(file);
-      reader.onload = async (readerEvent) => {
-        console.log(readerEvent.target.result);
-        const imageBase64 = readerEvent.target.result;
+    if (user.position === "Faculty") {
+      const reader = new FileReader();
+      const file = e.target.files[0];
+      if (file) {
+        reader.readAsDataURL(file);
+        reader.onload = async (readerEvent) => {
+          console.log(readerEvent.target.result);
+          const imageBase64 = readerEvent.target.result;
 
-        const images = ref(storage, `images/${id}`);
-        const listofimages = await listAll(images);
-        const listlength = listofimages.items.length;
+          const images = ref(storage, `images/${id}`);
+          const listofimages = await listAll(images);
+          const listlength = listofimages.items.length;
 
-        const imageref = ref(storage, `images/${id}/${listlength + 1}`);
-        await uploadString(imageref, imageBase64, "data_url").then(async () => {
-          const imageURL = await getDownloadURL(imageref);
-          console.log(imageURL);
-        });
-      };
+          const imageref = ref(storage, `images/${id}/${listlength + 1}`);
+          await uploadString(imageref, imageBase64, "data_url").then(
+            async () => {
+              const imageURL = await getDownloadURL(imageref);
+              console.log(imageURL);
+            }
+          );
+        };
+      }
+    } else {
+      alert("Only Internal Members and Organizers are Allowed to Upload Images")
     }
   };
 

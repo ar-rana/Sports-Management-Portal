@@ -22,7 +22,7 @@ function App() {
         })
         if (res) {
           const data = await res.json()
-          console.log(data);
+          //console.log(data);
           setUser(data.user.user)
         }
       } catch (e) {

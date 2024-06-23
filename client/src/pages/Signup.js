@@ -20,7 +20,7 @@ const Signup = () => {
 
   useEffect(() => {
     if(user){
-      console.log("user hai: ", user);
+      console.log("true");
       navigate('/', {replace: true}) // replace : true, replaces the current history location in the browser's history
     }
   }, [user]);
@@ -98,7 +98,6 @@ const Signup = () => {
       });
     }
     const data = await res.json();
-    console.log("data: ", data);
 
     setName("");
     setEmail("");
@@ -119,9 +118,7 @@ const Signup = () => {
   const onSubmithandler = (e) => {
     e.preventDefault();
     const offer = warningState();
-    alert("onSubmithandler triggered!!!");
     if (offer) {
-      console.log("in offer block");
       signUp();
     }
   };
@@ -155,14 +152,14 @@ const Signup = () => {
               className="rounded-xl border-[1px] border-black w-full xl:w-[85%] py-1 pl-2 bg-green-600 placeholder-white text-white focus:ring-0 border-none"
             />
             <input
-              type="text"
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Create Password"
               className="rounded-xl border-[1px] border-black w-full xl:w-[85%] py-1 pl-2 bg-green-600 placeholder-white text-white focus:ring-0 border-none"
             />
             <input
-              type="text"
+              type="password"
               value={fixPassword}
               onChange={(e) => setfixPasssword(e.target.value)}
               placeholder="Confirm Password"

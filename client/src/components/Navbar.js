@@ -6,7 +6,9 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 
 const Navbar = () => {
   const { user, setUser } = useContext(UserContext);
+
   const origin = "http://localhost:5000";
+
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,8 +20,7 @@ const Navbar = () => {
       credentials: "include",
       headers: { "Content-Type": "application/json" },
     });
-    const data = await res.json();
-    console.log(data);
+    //const data = await res.json();
     window.location.reload();
   };
 
@@ -36,10 +37,10 @@ const Navbar = () => {
     });
 
     const data = await res.json();
-    console.log(data);
+    //console.log(data);
 
     if (res.status === 404) {
-      alert(data.message);
+      setWarning(data.message);
     }
     if (res.status === 401) {
       setWarning(data.message);
@@ -49,7 +50,7 @@ const Navbar = () => {
       setEmail("");
       setPassword("");
       setOpen(false);
-      console.log(data.message);
+      alert(data.message);
     }
   };
 
@@ -66,9 +67,7 @@ const Navbar = () => {
   const LoginSubmitHandler = (e) => {
     e.preventDefault();
     const offer = warningState();
-    alert("submit hadler triggered");
     if (offer) {
-      console.log("in offer block - login");
       login();
     }
   };
@@ -77,7 +76,7 @@ const Navbar = () => {
     <div className="bg-green-100">
       <nav className="bg-green-100 md:border-0 border-b-2 border-gray-200 z-100 sticky h-18 top-0">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a className="flex items-center space-x-3 rtl:space-x-reverse">
+          <a className="flex items-center space-x-3 rtl:space-x-reverse" href="/">
             <img src={logo} className="h-10" alt="" />
           </a>
           <div className="hidden w-full md:block md:w-auto">
@@ -172,7 +171,7 @@ const Navbar = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="text-black bg-gray-200 w-full p-2 rounded-lg"
-                  type="text"
+                  type="password"
                   placeholder="Enter Password"
                 />
                 <p className="text-red-500 text-sm">{warning}</p>

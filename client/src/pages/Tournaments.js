@@ -2,7 +2,7 @@ import { ArrowLeftIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-modal";
 import TournamentBar from "../components/TournamentBar";
-import { db, storage } from "../firebase";
+import { db } from "../firebase";
 import {
   serverTimestamp,
   query,
@@ -36,14 +36,13 @@ const Tournaments = () => {
 
   useEffect(() => {
     if (user) {
-      console.log("user hai: ", user);
+      console.log("true");
     }
   }, [user]);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
     alert(`Sport value set to ${sport}`);
-    console.log(tournaments.length);
 
     if (sport) {
       const tournamentsCopy = [...tournaments];
@@ -66,6 +65,8 @@ const Tournaments = () => {
     e.preventDefault();
     if (!user) {
       return alert("login to create tournament");
+    } if (start > end || !tournamentsport || !name || !start || !end) {
+      alert("Enter Valid Registration Details")
     } else {
       const collectionref = collection(db, "tournaments");
       const docref = await addDoc(collectionref, {
@@ -162,13 +163,26 @@ const Tournaments = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
-                <input
+                <select
+                  name="sports"
+                  onChange={(e) => setTournamentSport(e.target.value)}
+                  value={tournamentsport}
+                  className="text-black bg-gray-200 w-full p-2 rounded-lg border-2 border-green-500"
+                >
+                  <option disabled value="">Select a Sport</option>
+                  <option value="football">Football</option>
+                  <option value="cricket">Cricket</option>
+                  <option value="swimming">Swimming</option>
+                  <option value="badminton">Badminton</option>
+                  {/* keep the values in small case letters */}
+                </select>
+                {/* <input
                   className="text-black bg-gray-200 w-full p-2 rounded-lg border-2 border-green-500"
                   type="text"
                   placeholder="Enter The Sport"
                   value={tournamentsport}
                   onChange={(e) => setTournamentSport(e.target.value)}
-                />
+                /> */}
                 <label className="font-semibold m-1 mr-4" for="Start Date">
                   Start Date:
                 </label>
