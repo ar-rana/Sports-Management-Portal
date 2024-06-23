@@ -26,11 +26,6 @@ app.get("/", (req, res) => {
   res.send("Server Live!!");
 });
 
-app.post("/test", (req, res) => {
-  console.log(req.body);
-  res.send("good");
-});
-
 server.listen(PORT, () => {
   console.log(`server live on ${PORT}`);
 });

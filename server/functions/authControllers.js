@@ -7,10 +7,7 @@ const {
   where,
   query,
   getDocs,
-  doc,
-  getDoc,
 } = require("firebase/firestore");
-const { get, use } = require("../routes/authRoutes");
 
 // const createJWT = (id) => {
 //   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: maxAge });
@@ -110,7 +107,6 @@ module.exports.login = async (req, res) => {
   const { email, password } = req.body;
   console.log(email, password);
   try {
-    // put these 2 lines after the if block
     const q = query(collection(db, "users"), where("email", "==", email));
     const user = await getDocs(q);
     if (!user.empty) {
