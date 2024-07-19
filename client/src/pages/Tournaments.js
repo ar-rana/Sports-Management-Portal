@@ -18,6 +18,7 @@ const Tournaments = () => {
   const [tournaments, setTournaments] = useState([]);
   const [open, setOpen] = useState(false);
   const [sport, setSport] = useState(null);
+  const [alert, setAlert] = useState(false);
 
   const [name, setName] = useState("");
   const [tournamentsport, setTournamentSport] = useState("");
@@ -65,8 +66,9 @@ const Tournaments = () => {
     e.preventDefault();
     if (!user) {
       return alert("login to create tournament");
-    } if (start > end || !tournamentsport || !name || !start || !end) {
-      alert("Enter Valid Registration Details")
+    }
+    if (start > end || !tournamentsport || !name || !start || !end) {
+      alert("Enter Valid Registration Details");
     } else {
       const collectionref = collection(db, "tournaments");
       const docref = await addDoc(collectionref, {
@@ -86,6 +88,14 @@ const Tournaments = () => {
       setstartDate("");
       setendDate("");
       setDescription("");
+    }
+  };
+
+  const registerBtn = () => {
+    if (user) {
+      setOpen((prevState) => !prevState);
+    } else {
+      setAlert(true);
     }
   };
 
@@ -123,7 +133,7 @@ const Tournaments = () => {
           />
         </form>
         <button
-          onClick={() => setOpen((prevState) => !prevState)}
+          onClick={registerBtn}
           className="bg-green-600 rounded-3xl w-auto h-auto font-bold text-white hover:shadow-md py-1.5 xl:ml-auto md:ml-auto px-4"
         >
           Register a Tournament
@@ -169,7 +179,9 @@ const Tournaments = () => {
                   value={tournamentsport}
                   className="text-black bg-gray-200 w-full p-2 rounded-lg border-2 border-green-500"
                 >
-                  <option disabled value="">Select a Sport</option>
+                  <option disabled value="">
+                    Select a Sport
+                  </option>
                   <option value="football">Football</option>
                   <option value="cricket">Cricket</option>
                   <option value="swimming">Swimming</option>
@@ -215,6 +227,33 @@ const Tournaments = () => {
                   Register Tournament
                 </button>
               </form>
+            </div>
+          </div>
+        </Modal>
+      )}
+      {alert && (
+        <Modal
+          className="max-w-xl h-auto w-[90%] absolute top-24 left-[50%] translate-x-[-50%] bg-white border-4 border-green-600 rounded-xl shadow-md"
+          isOpen={alert}
+          onRequestClose={() => setAlert(false)}
+        >
+          <div className="p-1">
+            <div className="border-b border-green-400">
+              <div
+                onClick={() => setAlert(false)}
+                className="hoverEffect p-0 w-9 h-9 flex items-center justify-center"
+              >
+                <XMarkIcon
+                  className="h-[22px] text-gray-600 cursor-pointer hover:bg-gray-200 rounded-full"
+                  onClick={() => setAlert(false)}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col p-4 items-center">
+                <h2 className="h-10 font-bold justify-center align-middle">Login to Create/Register Tournament</h2>
+                <div>
+                  <a href="/signup" className="p-3 bg-green-500 rounded-xl mt-4">Create Account</a>
+                </div>
             </div>
           </div>
         </Modal>
