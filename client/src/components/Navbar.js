@@ -76,8 +76,11 @@ const Navbar = () => {
     <div className="bg-green-100">
       <nav className="bg-green-100 md:border-0 border-b-2 border-gray-200 z-100 sticky h-18 top-0">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a className="flex items-center space-x-3 rtl:space-x-reverse" href="/">
-            <img src={logo} className="h-10" alt="" />
+          <a
+            className="flex items-center space-x-3 rtl:space-x-reverse"
+            href="/"
+          >
+            <img src={logo} className="h-9" alt="" />
           </a>
           <div className="hidden w-full md:block md:w-auto">
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-green-100 ">
@@ -112,16 +115,24 @@ const Navbar = () => {
                 >
                   About us
                 </a>
-              </li>
+              </li> 
             </ul>
           </div>
           {user ? (
-            <button
-              onClick={logout}
-              className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md cursor-pointer"
-            >
-              Logout
-            </button>
+            <div className="flex space-x-2 px-6">
+              <button
+                onClick={logout}
+                className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md cursor-pointer"
+              >
+                Logout
+              </button>
+              <a
+                className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md"
+                href="#"
+              >
+                Dashboard
+              </a>
+            </div>
           ) : (
             <div className="flex space-x-2 px-8">
               <button

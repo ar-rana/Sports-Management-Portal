@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import "../index.css";
 import Navbar from "../components/Navbar";
-import wLogo from "../assets/Images/sport_wLogo.png";
 import sport from "../assets/Images/sport.png";
 import { UserContext } from "../UserContext";
 
@@ -32,15 +31,15 @@ function Home() {
             </div>
             <div className="px-[13%] py-10 w-3/4">
               <p className="xl:text-5xl text-3xl font-bold tracking-wide">
-                KIIT Sports
+                Sports for All
               </p>
             </div>
             <div>
-              <img src={wLogo} className="ml-[13%] h-20 mt-12" />
+              {/* <img src={} className="ml-[13%] h-20 mt-12 xl:block hidden" /> */}
             </div>
           </div>
           <img
-            className="hidden z-5 xl:block md:block relative md:bottom-[300px] ml-auto md:h-[450px] xl:h-[480px] xl:bottom-[350px]"
+            className="hidden z-5 xl:block md:block relative md:bottom-[300px] ml-auto md:h-[450px] xl:h-[480px] xl:bottom-[260px]"
             src={sport}
           />
         </div>
@@ -73,6 +72,16 @@ function Home() {
               About us
             </a>
           </div>
+          {/* {user && (
+            <div className="flex justify-center">
+              <a
+                href="#"
+                className="w-[300px] py-2 px-4 font-semibold bg-green-600 cursor-pointer hover:shadow-xl hover:bg-green-300 rounded-3xl text-center"
+              >
+                Dashboard
+              </a>
+            </div>
+          )} */}
         </div>
       </div>
     </div>
