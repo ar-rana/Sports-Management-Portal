@@ -35,7 +35,7 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ user, setUser, origin }}>
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route exact path="/signup" element={<Signup />} />

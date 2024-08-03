@@ -15,6 +15,8 @@ import { UserContext } from "../UserContext";
 
 const Tournaments = () => {
   const { user } = useContext(UserContext);
+  const { origin } = useContext(UserContext);
+
   const [tournaments, setTournaments] = useState([]);
   const [open, setOpen] = useState(false);
   const [sport, setSport] = useState(null);
@@ -26,7 +28,7 @@ const Tournaments = () => {
   const [end, setendDate] = useState("");
   const [description, setDescription] = useState("");
 
-  const origin = "http://localhost:5000";
+  // const origin = "http://localhost:5000";
 
   useEffect(() => {
     onSnapshot(

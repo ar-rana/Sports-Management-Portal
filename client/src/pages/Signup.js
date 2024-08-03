@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const { user, setUser } = useContext(UserContext);
+  const { origin } = useContext(UserContext);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ const Signup = () => {
   const [warning, setWarning] = useState("");
   const [rollno, setRollno] = useState("");
 
-  const origin = "http://localhost:5000";
+  // const origin = "http://localhost:5000";
   const navigate = useNavigate();
 
   useEffect(() => {

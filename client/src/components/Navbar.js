@@ -6,8 +6,8 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 
 const Navbar = () => {
   const { user, setUser } = useContext(UserContext);
-
-  const origin = "http://localhost:5000";
+  const { origin } = useContext(UserContext);
+  // const origin = "http://localhost:5000";
 
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
