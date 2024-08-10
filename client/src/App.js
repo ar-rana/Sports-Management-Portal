@@ -7,6 +7,7 @@ import Coaches from "./pages/Coaches";
 import About from "./pages/About";
 import Details from "./pages/Details";
 import { UserContext } from "./UserContext";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   const [user, setUser] = useState();
@@ -43,6 +44,7 @@ function App() {
             <Route exact path="/coaches" element={<Coaches />} />
             <Route exact path="/about" element={<About />} />
             <Route exact path="/tournament/:id" element={<Details />} />
+            <Route exact path="/dashboard" element={<Dashboard />} />
           </Routes>
         </UserContext.Provider>
       </BrowserRouter>

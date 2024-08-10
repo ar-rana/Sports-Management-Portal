@@ -45,7 +45,7 @@ const Tournaments = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    alert(`Sport value set to ${sport}`);
+    // alert(`Sport value set to ${sport}`);
 
     if (sport) {
       const tournamentsCopy = [...tournaments];
@@ -80,6 +80,7 @@ const Tournaments = () => {
         endingDate: end,
         description: description,
         organizer: user.name,
+        organizerId: user.id,
         timeStamp: serverTimestamp(),
       });
       setOpen(false);
