@@ -128,7 +128,7 @@ const Navbar = () => {
               </button>
               <a
                 className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md"
-                href="#"
+                href="/dashboard"
               >
                 Dashboard
               </a>

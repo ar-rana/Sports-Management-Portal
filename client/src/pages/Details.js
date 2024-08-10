@@ -170,7 +170,7 @@ const Details = () => {
               </button>
             )}
             <div className="mt-auto ml-auto mr-6">
-              <p className="text-md text-white hover:text-base  xl:text-sm md:text-sm">
+              <p className="text-md text-white xl:text-sm md:text-sm">
                 Created: <Moment fromNow>{timeStampDate}</Moment>
               </p>
             </div>
