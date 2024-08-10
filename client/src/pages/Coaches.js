@@ -6,7 +6,7 @@ const Coaches = () => {
   const loop = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
   return (
     <div>
-      <div>
+      <div className="">
         <nav className="flex justify-center items-center bg-green-600 h-20 px-4 place-items-center">
           <div>
             <p className="text-white font-bold text-4xl">Coaches</p>
@@ -17,11 +17,12 @@ const Coaches = () => {
             </a>
           </div>
         </nav>
-        
-        <div className="flex flex-wrap my-10 mx-20 justify-start items-center">
-          {loop.map((each, index) => (
-            <CoachCard key={index}/>
-          ))}
+        <div className="flex justify-center my-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {loop.map((each, index) => (
+              <CoachCard key={index} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
