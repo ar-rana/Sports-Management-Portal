@@ -30,6 +30,11 @@ const Details = () => {
   const timeStampDate = new Date(tournamentData.timeStamp.seconds * 1000);
 
   const register = async () => {
+    let today = new Date()
+    if (today > new Date(tournamentData.startingDate)){
+      alert("Registrations over for this tournament");
+      return
+    }
     if (user) {
       await addDoc(collection(db, "tournaments", id, "registered"), {
         userID: user.id,
@@ -41,6 +46,10 @@ const Details = () => {
   };
 
   const unregister = async () => {
+    if (new Date() > new Date(tournamentData.startingDate)){
+      alert("Registrations closed");
+      return
+    }
     if (user) {
       const q = query(
         collection(db, "tournaments", id, "registered"),

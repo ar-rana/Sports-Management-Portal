@@ -20,7 +20,7 @@ const Tournaments = () => {
   const [tournaments, setTournaments] = useState([]);
   const [open, setOpen] = useState(false);
   const [sport, setSport] = useState(null);
-  const [alert, setAlert] = useState(false);
+  const [alertCall, setAlert] = useState(false);
 
   const [name, setName] = useState("");
   const [tournamentsport, setTournamentSport] = useState("");
@@ -45,7 +45,7 @@ const Tournaments = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    // alert(`Sport value set to ${sport}`);
+    alert(`Sport value set to ${sport}`);
 
     if (sport) {
       const tournamentsCopy = [...tournaments];
@@ -234,10 +234,10 @@ const Tournaments = () => {
           </div>
         </Modal>
       )}
-      {alert && (
+      {alertCall && (
         <Modal
           className="max-w-xl h-auto w-[90%] absolute top-24 left-[50%] translate-x-[-50%] bg-white border-4 border-green-600 rounded-xl shadow-md"
-          isOpen={alert}
+          isOpen={alertCall}
           onRequestClose={() => setAlert(false)}
         >
           <div className="p-1">
