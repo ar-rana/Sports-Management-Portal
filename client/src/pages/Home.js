@@ -39,7 +39,7 @@ function Home() {
             </div>
           </div>
           <img
-            className="hidden z-5 xl:block md:block relative md:bottom-[300px] ml-auto md:h-[450px] xl:h-[480px] xl:bottom-[260px]"
+            className="hidden z-5 xl:block md:block relative md:bottom-[170px] ml-auto md:h-[430px] xl:h-[480px] xl:bottom-[260px]"
             src={sport}
           />
         </div>

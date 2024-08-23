@@ -38,7 +38,9 @@ const Details = () => {
     if (user) {
       await addDoc(collection(db, "tournaments", id, "registered"), {
         userID: user.id,
-        usersName: user.name,
+      });
+      await addDoc(collection(db, "users", user.id, "registered"), {
+        tournamentID: id,
       });
     } else {
       alert("login to register");
@@ -57,9 +59,19 @@ const Details = () => {
       );
       const querysnapsnot = await getDocs(q);
 
+      const q2 = query(
+        collection(db, "users", user.id, "registered"),
+        where("tournamentID", "==", id)
+      );
+      const querysnapsnot2 = await getDocs(q2);
+
       querysnapsnot.forEach(
         async (entry) =>
           await deleteDoc(doc(db, "tournaments", id, "registered", entry.id))
+      );
+      querysnapsnot2.forEach(
+        async (entry) =>
+          await deleteDoc(doc(db, "users", user.id, "registered", entry.id))
       );
       setIsregistered(false);
     }

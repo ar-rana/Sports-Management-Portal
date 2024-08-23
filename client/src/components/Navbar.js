@@ -80,7 +80,7 @@ const Navbar = () => {
             className="flex items-center space-x-3 rtl:space-x-reverse"
             href="/"
           >
-            <img src={logo} className="h-9" alt="" />
+            <img src={logo} className="h-7 xl:h-9 md:h-9" alt="" />
           </a>
           <div className="hidden w-full md:block md:w-auto">
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-green-100 ">
@@ -122,12 +122,12 @@ const Navbar = () => {
             <div className="flex space-x-2 px-6">
               <button
                 onClick={logout}
-                className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md cursor-pointer"
+                className="bg-green-500 py-2 px-3 xl:px-5 md:px-5 rounded-3xl text-white hover:shadow-md cursor-pointer"
               >
                 Logout
               </button>
               <a
-                className="bg-green-500 py-2 px-5 rounded-3xl text-white hover:shadow-md"
+                className="bg-green-500 py-2 px-3 xl:px-5 md:px-5 rounded-3xl text-white hover:shadow-md"
                 href="/dashboard"
               >
                 Dashboard
