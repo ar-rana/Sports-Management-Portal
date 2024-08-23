@@ -59,7 +59,7 @@ const Dashboard = () => {
           />
           <br/>
           <div className="flex-1">
-            <div className="xl:m-9 md:m-9 sm:m-0 sm:border-none xl:border-solid xl:border-4 md:border-solid md:border-4 border-black h-[100%] p-4">
+            <div className="xl:m-10 md:m-10 sm:m-0 sm:border-none xl:border-solid xl:border-4 md:border-solid md:border-4 border-black h-[100%] p-4">
               <div className="mt-8 w-full overflow-y-scroll scrollbar scroll-smooth ml-auto pr-4">
                 <DashNav dashState={dashState} />
               </div>

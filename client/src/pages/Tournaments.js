@@ -191,13 +191,6 @@ const Tournaments = () => {
                   <option value="badminton">Badminton</option>
                   {/* keep the values in small case letters */}
                 </select>
-                {/* <input
-                  className="text-black bg-gray-200 w-full p-2 rounded-lg border-2 border-green-500"
-                  type="text"
-                  placeholder="Enter The Sport"
-                  value={tournamentsport}
-                  onChange={(e) => setTournamentSport(e.target.value)}
-                /> */}
                 <label className="font-semibold m-1 mr-4" for="Start Date">
                   Start Date:
                 </label>

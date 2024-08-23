@@ -10,17 +10,17 @@
   
     .scrollbar::-webkit-scrollbar-track {
       border-radius: 100vh;
-      background: #f7f4ed;
+      background: #d9e6c9;
     }
   
     .scrollbar::-webkit-scrollbar-thumb {
-      background: #e0cbcb;
+      background: #d8ebc1;
       border-radius: 100vh;
-      border: 3px solid #f6f7ed;
+      border: 3px solid #f4f7ed;
     }
   
     .scrollbar::-webkit-scrollbar-thumb:hover {
-      background: #c0a0b9;
+      background: #bad4a4;
     }
   }
   

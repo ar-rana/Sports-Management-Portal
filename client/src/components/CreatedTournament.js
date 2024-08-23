@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserContext";
 import { db } from "../firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import TournamentBar from "./TournamentBar";
+import DashboardBar from "./DashboardBar";
 
 const CreatedTournaments = () => {
   const { user } = useContext(UserContext);
@@ -28,7 +28,7 @@ const CreatedTournaments = () => {
       {data.map((each) => (
         <div className="flex flex-col items-center my-6 space-y-3 w-auto">
           {/* <p key={each.id}>good {each.id}</p> */}
-          <TournamentBar key={each.id} tournament={each} />
+          <DashboardBar key={each.id} tournament={each} />
         </div>
       ))}
     </div>
