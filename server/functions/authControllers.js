@@ -1,5 +1,6 @@
 const { db } = require("../firebase");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const maxAge = 1 * 24 * 60 * 60;
 const {
   addDoc,
@@ -24,7 +25,7 @@ module.exports.signup = async (req, res) => {
     const { name, email, rollno, password, position } = req.body;
 
     console.log(name, email, rollno, password, position);
-
+    const salt = await bcrypt.genSalt();
     try {
       const q = query(collection(db, "users"), where("email", "==", email));
       const element = await getDocs(q);
@@ -33,7 +34,7 @@ module.exports.signup = async (req, res) => {
           name: name,
           email: email,
           rollno: rollno,
-          password: password,
+          password: await bcrypt.hash(password,salt),
           position: position,
         });
 
@@ -112,7 +113,8 @@ module.exports.login = async (req, res) => {
     if (!user.empty) {
       const userDoc = user.docs[0]; //because getDocs() return a "QueryDocumentSnapshot" that needs to be looped through to get data. Here user is the QueryDocumentSnapshot
       const userData = userDoc.data();
-      if (userData.password === password) {
+      const pass = await bcrypt.compare(password, userData.password);
+      if (pass) {
         const existingUser = {
           id: userDoc.id,
           name: userData.name,
