@@ -1,11 +1,13 @@
 import React from "react";
 import logo from "../assets/Images/logo.png";
-import { ArrowLeftIcon } from "@heroicons/react/24/solid";
-
+import Navbar from "../components/Navbar";
 
 const About = () => {
   return (
     <div>
+      <div className="sticky top-0 w-full">
+        <Navbar />
+      </div>
       <div className="flex flex-col">
         <span className="text-green-600 text-5xl font-bold m-7">About us</span>
         <div className="bg-green-600 my-8 rounded-3xl py-5 px-4 h-auto m-7">
@@ -30,14 +32,10 @@ const About = () => {
             excepturi et temporibus! Ipsum, sapiente! Consequuntur asperiores
             impedit magni a inventore sit dignissimos?
           </p>
-          <div className="hidden xl:inline xl:absolute md:inline md:absolute right-10 bottom-2">
-            <img src={logo} className="h-24" />
-          </div>
         </div>
-        <a href="/" className="flex items-center space-x-2 m-7 bg-green-600 w-max rounded-xl p-3 hover:shadow-md hover:bg-green-300">
-            <ArrowLeftIcon className="h-7"/>
-            <span className="font-bold">Go Back to Home</span>
-        </a>
+        <div className="ml-auto hidden xl:inline md:inline right-10 bottom-2">
+          <img src={logo} className="h-20" />
+        </div>
       </div>
     </div>
   );

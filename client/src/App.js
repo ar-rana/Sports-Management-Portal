@@ -13,18 +13,18 @@ function App() {
   const [user, setUser] = useState();
   const origin = "http://localhost:5000";
 
-  useEffect(()=>{
+  useEffect(() => {
     const verfyuser = async () => {
       try {
         const res = await fetch(`${origin}/verifyuserobject`, {
           method: "GET",
           credentials: "include",
-          headers: { "Content-Type": "application/json" }
-        })
-        if (res) {
-          const data = await res.json()
+          headers: { "Content-Type": "application/json" },
+        });
+        if (res.status === 200) {
+          const data = await res.json();
           //console.log(data);
-          setUser(data.user.user)
+          setUser(data.user.user);
         }
       } catch (e) {
         console.log(e);
@@ -32,7 +32,7 @@ function App() {
     };
 
     verfyuser();
-  },[])
+  }, []);
   return (
     <div>
       <BrowserRouter>
