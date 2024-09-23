@@ -11,7 +11,7 @@ import Dashboard from "./pages/Dashboard";
 
 function App() {
   const [user, setUser] = useState();
-  const origin = "http://localhost:5000";
+  const origin = process.env.SERVER;
 
   useEffect(() => {
     const verfyuser = async () => {

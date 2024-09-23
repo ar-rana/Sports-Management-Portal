@@ -8,7 +8,7 @@ require("dotenv").config();
 const app = express();
 
 PORT = process.env.PORT;
-const origin = "http://localhost:3000";
+const origin = process.env.CLIENT;
 const options = {
   origin: origin,
   credentials: true,
