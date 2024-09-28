@@ -44,23 +44,31 @@ The app is deployed on **Render**, and due to server inactivity, it occasionally
 
 1. **Clone Repository**:
    ```bash  
-   git clone https://github.com/ar-rana/SIH-2024.git
+   git clone https://github.com/ar-rana/Sports-Management-Portal.git
    ```
 
 2. **Navigate to Project Directory**:
    ```bash
    cd client
    ```
+   **for server:**
+   ```bash
+   cd server
+   ```
 
-3. **Install Dependencies**:
+4. **Install Dependencies**:
    After succesfull installation of pnpm on your system, install the required node modules and dependencies for the project.
    ```bash
    npm install
    ```
 
-4. **Start Development Server**:
+5. **Start Development Server**:
    ```bash
    npm start
+   ```
+   **for server:**
+   ```bash
+   nodemon server
    ```
    
 
