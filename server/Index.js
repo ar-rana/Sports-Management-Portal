@@ -8,7 +8,7 @@ require("dotenv").config();
 const app = express();
 
 PORT = process.env.PORT;
-const origin = process.env.CLIENT;
+const origin = "https://sports-management-portal.vercel.app";
 const options = {
   origin: origin,
   credentials: true,

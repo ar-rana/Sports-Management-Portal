@@ -11,7 +11,7 @@ import Dashboard from "./pages/Dashboard";
 
 function App() {
   const [user, setUser] = useState();
-  const origin = process.env.SERVER;
+  const origin = "https://sports-management-portal-server.onrender.com";
 
   useEffect(() => {
     const verfyuser = async () => {
