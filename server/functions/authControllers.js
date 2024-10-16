@@ -47,7 +47,7 @@ module.exports.signup = async (req, res) => {
         };
 
         const token = createJWTUser(createdUser);
-        res.cookie("user", token, { maxAge: maxAge * 1000 });
+        res.cookie("user", userToken, { maxAge: maxAge * 1000, sameSite: 'Lax', secure: true  });
         res.status(201).json({
           user: createdUser,
           message: "User created successfully",
@@ -127,7 +127,7 @@ module.exports.login = async (req, res) => {
         // res.cookie("userid", token, { maxAge: maxAge * 1000 });
 
         const userToken = createJWTUser(existingUser);
-        res.cookie("user", userToken, { maxAge: maxAge * 1000 });
+        res.cookie("user", userToken, { maxAge: maxAge * 1000, sameSite: 'Lax', secure: true  });
 
         res.status(200).json({
           user: existingUser,
