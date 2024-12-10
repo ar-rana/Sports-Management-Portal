@@ -15,7 +15,7 @@ This is a web application that can be used by the hostel committees, societies a
 ## Features
 
 ### Authentication & Authorization
-- **Firebase Authentication**: Secure user registration and login.
+- **Authentication**: Token based Secure user registration and login.
 - **Admin Privileges**: Admins can upload images and manage tournament details.
 
 ### Tournament Creation & Management
