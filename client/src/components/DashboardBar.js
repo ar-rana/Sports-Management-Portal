@@ -29,7 +29,8 @@ const DashboardBar = ({ tournament }) => {
     });
   };
 
-  const updateTournament = async () => {
+  const updateTournament = async (e) => {
+    e.preventDefault();
     try {
       const tournamentRef = doc(db, "tournaments", tournamentID);
       await updateDoc(tournamentRef, {
@@ -40,6 +41,8 @@ const DashboardBar = ({ tournament }) => {
         description: description,
       });
       console.log("Document successfully updated!");
+      setOpen((prev) => !prev);
+      window.location.reload();
     } catch (error) {
       console.error("Error updating document: ", error);
     }
@@ -155,7 +158,7 @@ const DashboardBar = ({ tournament }) => {
                 <br />
                 <button
                   type="submit"
-                  onClick={updateTournament}
+                  onClick={(e) => updateTournament(e)}
                   className="bg-green-500 p-2 rounded-lg font-medium"
                 >
                   Update Tournament
