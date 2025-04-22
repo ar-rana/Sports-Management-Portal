@@ -46,10 +46,11 @@ module.exports.signup = async (req, res) => {
           position: position,
         };
 
-        const token = createJWTUser(createdUser);
+        const token = await createJWTUser(createdUser);
         res.cookie("user", userToken, { maxAge: maxAge * 1000, sameSite: 'None', secure: true });
         res.status(201).json({
           user: createdUser,
+          token: token,
           message: "User created successfully",
         });
       } else {
@@ -126,11 +127,12 @@ module.exports.login = async (req, res) => {
         // const token = createJWT(userDoc.id);
         // res.cookie("userid", token, { maxAge: maxAge * 1000 });
 
-        const userToken = createJWTUser(existingUser);
+        const userToken = await createJWTUser(existingUser);
         res.cookie("user", userToken, { maxAge: maxAge * 1000, sameSite: 'None', secure: true  });
-
+        console.log(userToken);
         res.status(200).json({
           user: existingUser,
+          token: userToken,
           message: "Login Sucessfull",
         });
       } else {
@@ -187,9 +189,10 @@ module.exports.login = async (req, res) => {
 // verifyuser object
 
 module.exports.verifyuserObject = async (req, res, next) => {
-  const token = await req.cookies.user;
+  // const token = await req.cookies.user;
+  const { token } = req.body;
   if (token) {
-    console.log(token);
+    console.log("token: ", token);
     const user = jwt.verify(token, process.env.JWT_SECRET);
     console.log(user);
     res.status(200).json({ user: user });

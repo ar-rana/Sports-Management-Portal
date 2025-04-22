@@ -17,9 +17,12 @@ function App() {
     const verfyuser = async () => {
       try {
         const res = await fetch(`${origin}/verifyuserobject`, {
-          method: "GET",
+          method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            token: localStorage.getItem("token"),
+          })
         });
         if (res.status === 200) {
           const data = await res.json();

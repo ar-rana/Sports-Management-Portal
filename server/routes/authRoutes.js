@@ -10,6 +10,6 @@ router.get("/logout", authControllers.logout);
 
 //router.get("/verifyuser", authControllers.verifyuser);
 
-router.get("/verifyuserobject", authControllers.verifyuserObject);
+router.post("/verifyuserobject", authControllers.verifyuserObject);
 
 module.exports = router;

@@ -109,6 +109,7 @@ const Signup = () => {
 
     if (!data.user){
       alert(data.message);
+      localStorage.setItem("token", data.token);
     } else {
       setUser(data.user);
       alert(data.message);

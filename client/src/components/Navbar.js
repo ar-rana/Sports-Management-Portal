@@ -21,7 +21,8 @@ const Navbar = () => {
       headers: { "Content-Type": "application/json" },
     });
     //const data = await res.json();
-    window.location.reload();
+    localStorage.removeItem("token");
+    setTimeout(window.location.reload(), 1200);
   };
 
   const login = async () => {
@@ -51,6 +52,7 @@ const Navbar = () => {
       setPassword("");
       setOpen(false);
       alert(data.message);
+      localStorage.setItem("token", data.token);
     }
   };
 
